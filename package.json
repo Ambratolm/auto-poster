@@ -1,0 +1,17 @@
+{
+  "name": "auto-poster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "author": "Ambratolm <ambratolm@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "snoowrap": "^1.23.0"
+  }
+}
