@@ -1,10 +1,11 @@
 //==============================================================================
-// ■ Reddit (reddit.js)
+// ■ Reddit-API (reddit/api.js)
 //------------------------------------------------------------------------------
-//     Reddit poster.
+//     Reddit API Access Service.
 //==============================================================================
 const snoowrap = require("snoowrap");
-const { getRandomImage } = require("../providers/image");
+// const { post } = require("axios");
+// const FormData = require("form-data");
 
 //------------------------------------------------------------------------------
 // ● Requester
@@ -18,32 +19,53 @@ const r = new snoowrap({
 });
 
 //------------------------------------------------------------------------------
-// ● Post
+// ● Submit-Link
 //------------------------------------------------------------------------------
-exports.post = async function (subredditName, postTitleFormat = "") {
-  try {
-    let { title, url } = await getRandomImage();
-    if (postTitleFormat) title = postTitleFormat.replace("{title}", title);
-    const post = { title, url, resubmit: false };
-
-    const subreddit = r.getSubreddit(subredditName);
-    const submission = await subreddit.submitLink(post);
-    await markAsOC(subreddit, submission);
-    await applyFlairs(submission, ["artwork"]);
-
-    console.success(
-      "Reddit",
-      `"${title}" submitted to r/${subredditName} (${submission.name}).`
-    );
-  } catch (err) {
-    console.error(err);
-  }
+exports.submitLink = async function (subredditName, post = {}) {
+  const { title, url, oc, flairs } = post;
+  const subreddit = r.getSubreddit(subredditName);
+  const submission = await subreddit.submitLink({
+    title,
+    url,
+    resubmit: false,
+  });
+  if (oc) await markAsOC(r, subreddit, submission);
+  if (flairs && flairs.length) await applyFlairs(submission, flairs);
+  return submission;
 };
+
+//------------------------------------------------------------------------------
+// ● Upload-Media
+//------------------------------------------------------------------------------
+// async function uploadMedia(r, { name, type, blob }) {
+//   const uploadResponse = await r.oauthRequest({
+//     uri: "api/media/asset.json",
+//     method: "post",
+//     form: {
+//       filepath: name,
+//       mimetype: type,
+//     },
+//   });
+//   const uploadUrl = `https:${uploadResponse.args.action}`;
+//   const formData = new FormData();
+//   for (field of uploadResponse.args.fields) {
+//     formData.append(field.name, field.value);
+//   }
+//   formData.append("file", blob, name);
+//   const response = await post(uploadUrl, formData, { mode: "no-cors" });
+//   return {
+//     asset_id: uploadResponse.asset.asset_id,
+//     link: `${uploadUrl}/${
+//       uploadResponse.args.fields.find((field) => field.name === "key").value
+//     }`,
+//     websocket_url: uploadResponse.asset.websocket_url,
+//   };
+// }
 
 //------------------------------------------------------------------------------
 // ● Mark-As-OC
 //------------------------------------------------------------------------------
-async function markAsOC(subreddit, submission) {
+async function markAsOC(r, subreddit, submission) {
   return r.oauthRequest({
     uri: "/api/set_original_content",
     method: "post",

@@ -4,27 +4,35 @@
 //     Main entry point.
 //==============================================================================
 require("./utils/");
-const reddit = require("./networks/reddit");
+const reddit = require("./reddit/");
 
 //------------------------------------------------------------------------------
 // ● Startup
 //------------------------------------------------------------------------------
 console.clear();
-const days = 1;
-main().then(setInterval(main, global.daysToMs(days)));
+main(global.minutesToMs(1));
 
 //------------------------------------------------------------------------------
 // ● Main
 //------------------------------------------------------------------------------
-async function main() {
-  await postAll();
-  console.log(`Waiting for ${days} days...`);
-};
+async function main(timeout = 0) {
+  task(timeout);
+  if (timeout > 0) setInterval(task, timeout);
+}
 
 //------------------------------------------------------------------------------
-// ● Post-All
+// ● Task
 //------------------------------------------------------------------------------
-async function postAll() {
+async function task(timeout) {
+  console.log("Posting...");
+  await post();
+  if (timeout > 0) console.log(`Waiting for ${timeout} ms...`);
+}
+
+//------------------------------------------------------------------------------
+// ● Post
+//------------------------------------------------------------------------------
+async function post() {
   return Promise.all([
     reddit.post("TheRiseOfMyPower", "{title}, by me"),
     // reddit.post("Drawing", "{title}, by me"),
