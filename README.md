@@ -16,7 +16,15 @@ To deploy the project in a node environment:
 
 1. Push the **repository** to a **node production server** using a service like [Heroku](https://heroku.com).
 
-2. Manually register the **environment variables** in the **node production server**.
+> 💡 As this is not an HTTP Web app, but a worker process, the service should be set for that.
+
+> ℹ️ For Heroku run `heroku ps:scale web=0 worker=1 -a app-name` in the CLI.
+
+> 💡 `worker` corresponds to the name given in the [**`Procfile`**](https://devcenter.heroku.com/articles/procfile) file.
+
+2. Manually register the **environment variables** in the **node production server**
+
+> ℹ️ For Heroku, go to the app's _Settings_ / _Config Vars_.
 
 3. Install the **dependencies**:
 

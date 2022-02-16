@@ -10,15 +10,15 @@ const reddit = require("./networks/reddit");
 // ● Startup
 //------------------------------------------------------------------------------
 console.clear();
-const minutes = 1;
-main().then(setInterval(main, global.minutesToMs(minutes)));
+const days = 1;
+main().then(setInterval(main, global.daysToMs(days)));
 
 //------------------------------------------------------------------------------
 // ● Main
 //------------------------------------------------------------------------------
 async function main() {
   await postAll();
-  console.log(`Waiting for ${minutes} minutes...`);
+  console.log(`Waiting for ${days} days...`);
 };
 
 //------------------------------------------------------------------------------
