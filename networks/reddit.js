@@ -20,10 +20,10 @@ const r = new snoowrap({
 //------------------------------------------------------------------------------
 // ● Post
 //------------------------------------------------------------------------------
-exports.post = async function (subredditName, postTitleFormat) {
+exports.post = async function (subredditName, postTitleFormat = "") {
   try {
     let { title, url } = await getRandomImage();
-    title = postTitleFormat.replace("{title}", title);
+    if (postTitleFormat) title = postTitleFormat.replace("{title}", title);
     const post = { title, url, resubmit: false };
 
     const subreddit = r.getSubreddit(subredditName);

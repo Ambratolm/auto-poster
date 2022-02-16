@@ -6,9 +6,29 @@
 require("./utils/");
 const reddit = require("./networks/reddit");
 
-(async function main() {
-  console.clear();
-  reddit.post("TheRiseOfMyPower", "{title}, me, mix, 2022");
-  // twitter.post();
-  // facebook.post();
-})();
+//------------------------------------------------------------------------------
+// ● Startup
+//------------------------------------------------------------------------------
+console.clear();
+const minutes = 1;
+main().then(setInterval(main, global.minutesToMs(minutes)));
+
+//------------------------------------------------------------------------------
+// ● Main
+//------------------------------------------------------------------------------
+async function main() {
+  await postAll();
+  console.log(`Waiting for ${minutes} minutes...`);
+};
+
+//------------------------------------------------------------------------------
+// ● Post-All
+//------------------------------------------------------------------------------
+async function postAll() {
+  return Promise.all([
+    reddit.post("TheRiseOfMyPower", "{title}, by me"),
+    // reddit.post("Drawing", "{title}, by me"),
+    // twitter.post(),
+    // facebook.post(),
+  ]);
+}
