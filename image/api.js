@@ -6,15 +6,20 @@
 const { get } = require("axios");
 
 //------------------------------------------------------------------------------
+// ● Endpoint
+//------------------------------------------------------------------------------
+const url = "https://random-artwork.herokuapp.com/dir/?json";
+
+//------------------------------------------------------------------------------
 // ● Get-Random-Image
 //------------------------------------------------------------------------------
-exports.getRandomImage = async function({ blob = false } = {}) {
+exports.getRandomImage = async function ({ blob = false } = {}) {
   try {
-    const url = "https://random-artwork.herokuapp.com/dir/?json";
     const image = (await get(url)).data;
-    if (blob) image.blob = (await get(image.url));
+    if (blob) image.blob = await get(image.url);
     return image;
-  } catch(err) {
+  } catch (err) {
+    console.error("Image/API", "Could not get random image.");
     throw Error(err.message);
   }
 };

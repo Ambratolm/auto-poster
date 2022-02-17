@@ -22,16 +22,26 @@ const r = new snoowrap({
 // ● Submit-Link
 //------------------------------------------------------------------------------
 exports.submitLink = async function (subredditName, post = {}) {
-  const { title, url, oc, flairs } = post;
-  const subreddit = r.getSubreddit(subredditName);
-  const submission = await subreddit.submitLink({
-    title,
-    url,
-    resubmit: false,
-  });
-  if (oc) await markAsOC(r, subreddit, submission);
-  if (flairs && flairs.length) await applyFlairs(submission, flairs);
-  return submission;
+  try {
+    const { title, url, oc, flairs } = post;
+    const subreddit = r.getSubreddit(subredditName);
+    const submission = await subreddit.submitLink({
+      title,
+      url,
+      resubmit: false,
+    });
+    console.success(
+      "Reddit/API",
+      `"${title}" submitted to r/${subredditName} as ${submission.name}.`
+    );
+
+    if (oc) await markAsOC(r, subreddit, submission);
+    if (flairs && flairs.length) await applyFlairs(submission, flairs);
+    return submission;
+  } catch (err) {
+    console.error("Reddit/API", `Could not submit link to r/${subredditName}.`);
+    throw Error(err.message);
+  }
 };
 
 //------------------------------------------------------------------------------
@@ -66,37 +76,54 @@ exports.submitLink = async function (subredditName, post = {}) {
 // ● Mark-As-OC
 //------------------------------------------------------------------------------
 async function markAsOC(r, subreddit, submission) {
-  return r.oauthRequest({
-    uri: "/api/set_original_content",
-    method: "post",
-    form: {
-      id: submission.name.replace("t3_", ""),
-      fullname: submission.name,
-      should_set_oc: true,
-      executed: true,
-      r: subreddit,
-    },
-  });
+  try {
+    await r.oauthRequest({
+      uri: "/api/set_original_content",
+      method: "post",
+      form: {
+        id: submission.name.replace("t3_", ""),
+        fullname: submission.name,
+        should_set_oc: true,
+        executed: true,
+        r: subreddit.display_name,
+      },
+    });
+  } catch (err) {
+    console.warn(
+      "Reddit/API",
+      `Could not mark as OC submission ${submission.name} for r/${subreddit.display_name}.`
+    );
+  }
 }
 
 //------------------------------------------------------------------------------
 // ● Apply-Flairs
 //------------------------------------------------------------------------------
 async function applyFlairs(submission, flairsTexts = []) {
-  const allFlairs = await submission.getLinkFlairTemplates();
-  if (allFlairs && allFlairs.length) {
-    const flairs = allFlairs.filter(function (flair) {
-      for (const flairText of flairsTexts) {
-        if (flairText.toLowerCase() === flair.flair_text.toLowerCase()) {
-          return true;
+  try {
+    const allFlairs = await submission.getLinkFlairTemplates();
+    if (allFlairs && allFlairs.length) {
+      const flairs = allFlairs.filter(function (flair) {
+        for (const flairText of flairsTexts) {
+          if (flairText.toLowerCase() === flair.flair_text.toLowerCase()) {
+            return true;
+          }
         }
-      }
-      return false;
-    });
-    if (flairs && flairs.length) {
-      for (const flair of flairs) {
-        submission.selectFlair({ flair_template_id: flair.flair_template_id });
+        return false;
+      });
+      if (flairs && flairs.length) {
+        for (const flair of flairs) {
+          await submission.selectFlair({
+            flair_template_id: flair.flair_template_id,
+          });
+        }
+        return flairs;
       }
     }
+  } catch (err) {
+    console.warn(
+      "Reddit/API",
+      `Could not apply flairs to submission ${submission.name}.`
+    );
   }
 }

@@ -32,6 +32,22 @@ console.log = (function (logFn) {
 })(console.log);
 
 //------------------------------------------------------------------------------
+// ● Console-Warn
+//------------------------------------------------------------------------------
+console.warn = (function (warnFn) {
+  return function warn() {
+    for (let i = 0, length = arguments.length; i < length; i++) {
+      if (i === 0 && length >= 2) {
+        arguments[i] = ` ${arguments[i].toString()} `.yellow.bgGrey;
+        continue;
+      }
+      arguments[i] = arguments[i].toString().yellow;
+    }
+    warnFn(" WAR ".black.bgYellow, ...arguments);
+  };
+})(console.warn);
+
+//------------------------------------------------------------------------------
 // ● Console-Error
 //------------------------------------------------------------------------------
 console.error = (function (errorFn) {

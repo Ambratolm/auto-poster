@@ -19,12 +19,7 @@ exports.post = async function (subredditName, postTitleFormat = "") {
       oc: true,
       flairs: ["artwork"],
     });
-    console.success(
-      "Reddit",
-      `"${title}" submitted to r/${subredditName} (${submission.name}).`
-    );
-    success = true;
   } catch (err) {
-    console.error("Reddit", err);
+    console.error("Reddit", err.stack);
   }
 };
