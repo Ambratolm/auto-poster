@@ -5,38 +5,53 @@
 //==============================================================================
 require("./utils/");
 const reddit = require("./reddit/");
+const { promisify } = require("util");
+const sleep = promisify(setTimeout);
 
 //------------------------------------------------------------------------------
-// ● Startup
+// ● Tasks-Config
 //------------------------------------------------------------------------------
-console.clear();
-main(global.minutesToMs(1));
+const config = {
+  tasks: [
+    // () => reddit.post("TheRiseOfMyPower", "{title}, by me"),
+    () => reddit.post("drawing"),
+    // () => reddit.post("conceptart"),
+    // () => reddit.post("ArtBuddy"),
+    // () => twitter.post(),
+    // () => facebook.post(),
+  ],
+  delays: {
+    iteration: global.days(1),
+    taskMin: global.seconds(3),
+    taskMax: global.seconds(5)
+  }
+};
+
 
 //------------------------------------------------------------------------------
 // ● Main
 //------------------------------------------------------------------------------
-async function main(timeout = 0) {
-  task(timeout);
-  if (timeout > 0) setInterval(task, timeout);
-}
+console.clear();
+(async function main(config) {
+  execute(config);
+  setInterval(execute, config.delays.iteration, config);
+})(config);
 
 //------------------------------------------------------------------------------
-// ● Task
+// ● Execute
 //------------------------------------------------------------------------------
-async function task(timeout) {
-  console.log("Posting...");
-  await post();
-  if (timeout > 0) console.log(`Waiting for ${timeout} ms...`);
-}
+async function execute({ tasks, delays }) {
+  for (task of tasks) {
+    try {
+      await task();
+    } catch(err) {
+      console.error(err);
+    }
 
-//------------------------------------------------------------------------------
-// ● Post
-//------------------------------------------------------------------------------
-async function post() {
-  return Promise.all([
-    reddit.post("TheRiseOfMyPower", "{title}, by me"),
-    // reddit.post("Drawing", "{title}, by me"),
-    // twitter.post(),
-    // facebook.post(),
-  ]);
+    let delay = global.random(delays.taskMin, delays.taskMax);
+    console.log(`Next task in ${delay} ms...`);
+    await sleep(delay);
+  }
+  console.success("All tasks done.");
+  console.log(`► Next iteration of tasks in ${delays.iteration} ms...`.cyan);
 }

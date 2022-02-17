@@ -10,25 +10,21 @@ const { getRandomImage } = require("../image/api");
 // ● Post
 //------------------------------------------------------------------------------
 exports.post = async function (subredditName, postTitleFormat = "") {
-  let success = false;
-  while (!success) {
-    try {
-      let { title, url } = await getRandomImage();
-      if (postTitleFormat) title = postTitleFormat.replace("{title}", title);
-      const submission = await submitLink(subredditName, {
-        title,
-        url,
-        oc: true,
-        flairs: ["artwork"],
-      });
-      console.success(
-        "Reddit",
-        `"${title}" submitted to r/${subredditName} (${submission.name}).`
-      );
-      success = true;
-    } catch (err) {
-      console.error("Reddit", err);
-      console.log("Reddit", "Retry posting...");
-    }
+  try {
+    let { title, url } = await getRandomImage();
+    if (postTitleFormat) title = postTitleFormat.replace("{title}", title);
+    const submission = await submitLink(subredditName, {
+      title,
+      url,
+      oc: true,
+      flairs: ["artwork"],
+    });
+    console.success(
+      "Reddit",
+      `"${title}" submitted to r/${subredditName} (${submission.name}).`
+    );
+    success = true;
+  } catch (err) {
+    console.error("Reddit", err);
   }
 };

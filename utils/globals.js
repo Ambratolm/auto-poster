@@ -7,10 +7,19 @@
 //------------------------------------------------------------------------------
 // ● Time
 //------------------------------------------------------------------------------
-global.minutesToMs = (minutes) => minutes * 6e+4;
-global.hoursToMs = (hours) => hours * 3.6e+6;
-global.daysToMs = (days) => days * 8.64e+7;
+global.seconds = (seconds) => seconds * 1e3;
+global.minutes = (minutes) => minutes * 6e4;
+global.hours = (hours) => hours * 3.6e6;
+global.days = (days) => days * 8.64e7;
 
+//------------------------------------------------------------------------------
+// ● Random
+//------------------------------------------------------------------------------
+global.random = function (min = 0, max = 5000) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
 //------------------------------------------------------------------------------
 // ● Environment
