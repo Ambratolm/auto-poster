@@ -7,10 +7,11 @@
 //------------------------------------------------------------------------------
 // ● Time
 //------------------------------------------------------------------------------
-global.seconds = (seconds) => seconds * 1e3;
-global.minutes = (minutes) => minutes * 6e4;
-global.hours = (hours) => hours * 3.6e6;
-global.days = (days) => days * 8.64e7;
+global.seconds = (seconds) => Number(seconds) * 1e3;
+global.minutes = (minutes) => Number(minutes) * 6e4;
+global.hours = (hours) => Number(hours) * 3.6e6;
+global.days = (days) => Number(days) * 8.64e7;
+global.date = (miliseconds) => new Date(Number(miliseconds));
 
 //------------------------------------------------------------------------------
 // ● Random

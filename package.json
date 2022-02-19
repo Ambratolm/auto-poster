@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "test": "nodemon ./test.js"
   },
   "author": "Ambratolm <ambratolm@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.0",
     "colors": "^1.4.0",
+    "dayjs": "^1.10.7",
     "dotenv": "^16.0.0",
     "form-data": "^4.0.0",
     "snoowrap": "^1.23.0"
