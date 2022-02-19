@@ -12,19 +12,6 @@ const sleep = promisify(setTimeout);
 // ● Tasks-Config
 //------------------------------------------------------------------------------
 const config = {
-  tasks: [
-    // () => reddit.post("TheRiseOfMyPower", "{title}, by me"),
-    () => reddit.post("Art", "{title}, me, mix, 2021"),
-    () => reddit.post("SpecArt", "{title}, by me"),
-    () => reddit.post("drawing"),
-    () => reddit.post("conceptart"),
-    () => reddit.post("ArtBuddy"),
-    () => reddit.post("IDAP"),
-    () => reddit.post("Illustration"),
-    () => reddit.post("pics"),
-    // () => twitter.post(),
-    // () => facebook.post(),
-  ],
   delays: {
     iteration: global.days(1),
     taskMin: global.seconds(3),
@@ -45,8 +32,9 @@ console.clear();
 // ● Execute
 //------------------------------------------------------------------------------
 async function execute({ tasks, delays }) {
-  for (task of tasks) {
-    await task();
+  for (task of reddit.tasks) {
+    const { subredditName, post, schedule } = task;
+    await reddit.post(subredditName, post, schedule);
     let delay = global.random(delays.taskMin, delays.taskMax);
     console.log(`Next task in ${delay} ms...`);
     await sleep(delay);

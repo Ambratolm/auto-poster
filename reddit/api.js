@@ -10,7 +10,7 @@ const snoowrap = require("snoowrap");
 //------------------------------------------------------------------------------
 // ● Requester
 //------------------------------------------------------------------------------
-const r = new snoowrap({
+const requester = new snoowrap({
   userAgent: "Ambratolm-Bot",
   clientId: process.env.REDDIT_CLIENT_ID,
   clientSecret: process.env.REDDIT_CLIENT_SECRET,
@@ -24,7 +24,7 @@ const r = new snoowrap({
 exports.submitLink = async function (subredditName, post = {}) {
   try {
     const { title, url, oc, flairs } = post;
-    const subreddit = r.getSubreddit(subredditName);
+    const subreddit = requester.getSubreddit(subredditName);
     const submission = await subreddit.submitLink({
       title,
       url,
@@ -35,7 +35,7 @@ exports.submitLink = async function (subredditName, post = {}) {
       `"${title}" submitted to r/${subredditName} as ${submission.name}.`
     );
 
-    if (oc) await markAsOC(r, subreddit, submission);
+    if (oc) await markAsOC(requester, subreddit, submission);
     if (flairs && flairs.length) await applyFlairs(submission, flairs);
     return submission;
   } catch (err) {
@@ -45,39 +45,31 @@ exports.submitLink = async function (subredditName, post = {}) {
 };
 
 //------------------------------------------------------------------------------
-// ● Upload-Media
+// ● Get-Latest-Submission
 //------------------------------------------------------------------------------
-// async function uploadMedia(r, { name, type, blob }) {
-//   const uploadResponse = await r.oauthRequest({
-//     uri: "api/media/asset.json",
-//     method: "post",
-//     form: {
-//       filepath: name,
-//       mimetype: type,
-//     },
-//   });
-//   const uploadUrl = `https:${uploadResponse.args.action}`;
-//   const formData = new FormData();
-//   for (field of uploadResponse.args.fields) {
-//     formData.append(field.name, field.value);
-//   }
-//   formData.append("file", blob, name);
-//   const response = await post(uploadUrl, formData, { mode: "no-cors" });
-//   return {
-//     asset_id: uploadResponse.asset.asset_id,
-//     link: `${uploadUrl}/${
-//       uploadResponse.args.fields.find((field) => field.name === "key").value
-//     }`,
-//     websocket_url: uploadResponse.asset.websocket_url,
-//   };
-// }
+exports.getLatestSubmissions = async function (
+  subredditName,
+  authorName = "Ambratolm"
+) {
+  try {
+    return await requester.getSubreddit(subredditName).search({
+      query: `author:${authorName}`,
+      sort: "new",
+    });
+  } catch (err) {
+    console.warn(
+      "Reddit/API",
+      `Could not search r/${subredditName} for submissions by ${authorName}.`
+    );
+  }
+};
 
 //------------------------------------------------------------------------------
 // ● Mark-As-OC
 //------------------------------------------------------------------------------
-async function markAsOC(r, subreddit, submission) {
+async function markAsOC(requester, subreddit, submission) {
   try {
-    await r.oauthRequest({
+    await requester.oauthRequest({
       uri: "/api/set_original_content",
       method: "post",
       form: {
@@ -127,3 +119,31 @@ async function applyFlairs(submission, flairsTexts = []) {
     );
   }
 }
+
+//------------------------------------------------------------------------------
+// ● Upload-Media
+//------------------------------------------------------------------------------
+// async function uploadMedia(r, { name, type, blob }) {
+//   const uploadResponse = await r.oauthRequest({
+//     uri: "api/media/asset.json",
+//     method: "post",
+//     form: {
+//       filepath: name,
+//       mimetype: type,
+//     },
+//   });
+//   const uploadUrl = `https:${uploadResponse.args.action}`;
+//   const formData = new FormData();
+//   for (field of uploadResponse.args.fields) {
+//     formData.append(field.name, field.value);
+//   }
+//   formData.append("file", blob, name);
+//   const response = await post(uploadUrl, formData, { mode: "no-cors" });
+//   return {
+//     asset_id: uploadResponse.asset.asset_id,
+//     link: `${uploadUrl}/${
+//       uploadResponse.args.fields.find((field) => field.name === "key").value
+//     }`,
+//     websocket_url: uploadResponse.asset.websocket_url,
+//   };
+// }
