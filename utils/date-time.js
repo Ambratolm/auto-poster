@@ -1,11 +1,19 @@
 //==============================================================================
-// ■ Global (gloabal.js)
+// ■ Date-Time (date-time.js)
 //------------------------------------------------------------------------------
-//     Globally available objects.
+//     Date and Time related utilities.
 //==============================================================================
+const relativeTime = require("dayjs/plugin/relativeTime");
+const dayjs = require("dayjs");
+dayjs.extend(relativeTime);
 
 //------------------------------------------------------------------------------
-// ● Time
+// ● DayJS
+//------------------------------------------------------------------------------
+global.dayjs = dayjs;
+
+//------------------------------------------------------------------------------
+// ● Converters
 //------------------------------------------------------------------------------
 global.seconds = (seconds) => Number(seconds) * 1e3;
 global.minutes = (minutes) => Number(minutes) * 6e4;
@@ -20,27 +28,4 @@ global.random = function (min = 0, max = 5000) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-//------------------------------------------------------------------------------
-// ● Environment
-//------------------------------------------------------------------------------
-const envVars = require("dotenv").config().parsed;
-const { NODE_ENV } = process.env;
-global.env = {
-  vars: envVars,
-  isDev:
-    NODE_ENV === "development" ||
-    NODE_ENV === "dev" ||
-    (NODE_ENV !== "production" && NODE_ENV !== "prod"),
-  log() {
-    console.log("Environment:");
-    console.log(
-      `\t• Mode: ${this.isDev ? "Development".yellow : "Production".green}`
-    );
-    console.log("\t• Variables:");
-    for (const key in this.vars) {
-      console.log(`\t\t→ ${key}: ${this.vars[key].cyan}`);
-    }
-  },
 };

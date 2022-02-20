@@ -8,7 +8,7 @@ const { get } = require("axios");
 ///------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-module.exports = { getRandomImage };
+module.exports = { randomArtwork };
 
 //------------------------------------------------------------------------------
 // ● API-Endpoints
@@ -16,9 +16,9 @@ module.exports = { getRandomImage };
 const RANDOM_ARTWORK_URL = "https://random-artwork.herokuapp.com/dir/?json";
 
 //------------------------------------------------------------------------------
-// ● Get-Random-Image
+// ● Random-Artwork
 //------------------------------------------------------------------------------
-async function getRandomImage(options = {}) {
+async function randomArtwork(options = {}) {
   try {
     const { blob } = options;
     const image = (await get(RANDOM_ARTWORK_URL)).data;

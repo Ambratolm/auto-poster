@@ -4,53 +4,52 @@
 //     Reddit Posting Tasks.
 //==============================================================================
 
-// module.exports = [
-//   {
-//     subredditName: "TheRiseOfMyPower",
-//     post: { title: "{title}, by me", oc: true, flairs: ["Artwork"] },
-//     schedule: { every: global.days(1) },
-//   },
+//------------------------------------------------------------------------------
+// ► Exports
+//------------------------------------------------------------------------------
+module.exports = { tasks: tasks() };
 
-//   {
-//     subredditName: "Art",
-//     post: { title: "{title}, me, mix, 2021", oc: true, flairs: ["Artwork"] },
-//     schedule: { every: global.days(2) },
-//   },
+//------------------------------------------------------------------------------
+// ● Random-Artwork-Tasks
+//------------------------------------------------------------------------------
+function tasks() {
+  return [
+    {
+      subreddit: "TheRiseOfMyPower",
+      post: { format: "{title}, by me", oc: true, flairs: ["Artwork"] },
+      schedule: { every: hours(20) },
+    },
 
-//   {
-//     subredditName: "SpecArt",
-//     post: { title: "{title}, by me" },
-//     schedule: { every: global.days(1) },
-//   },
+    // {
+    //   subreddit: "Art",
+    // },
 
-//   {
-//     subredditName: "drawing",
-//     schedule: { every: global.days(1) },
-//   },
+    // {
+    //   subreddit: "SpecArt",
+    // },
 
-//   {
-//     subredditName: "conceptart",
-//     schedule: { every: global.days(1) },
-//   },
+    // {
+    //   subreddit: "drawing",
+    // },
 
-//   {
-//     subredditName: "ArtBuddy",
-//     schedule: { every: global.days(1) },
-//   },
+    // {
+    //   subreddit: "conceptart",
+    // },
 
-//   {
-//     subredditName: "IDAP",
-//     schedule: { every: global.days(1) },
-//   },
+    // {
+    //   subreddit: "ArtBuddy",
+    // },
 
-//   {
-//     subredditName: "Illustration",
-//     schedule: { every: global.days(1) },
-//   },
+    // {
+    //   subreddit: "IDAP",
+    // },
 
-//   {
-//     subredditName: "pics",
-//     post: { oc: true },
-//     schedule: { every: global.days(1) },
-//   },
-// ];
+    // {
+    //   subreddit: "Illustration",
+    // },
+
+    // {
+    //   subreddit: "pics",
+    // },
+  ];
+}

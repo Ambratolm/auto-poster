@@ -3,45 +3,60 @@
 //------------------------------------------------------------------------------
 //     Reddit Posting Automation Service.
 //==============================================================================
-// const tasks = require("./tasks");
-// const { getLatestSubmissions, submitLink } = require("./api");
-// const { getRandomImage } = require("../image/api");
+const { tasks } = require("./tasks");
+const { latestSubmissionByMe, submit } = require("./api");
+const { randomArtwork } = require("../image/api");
 
 //------------------------------------------------------------------------------
-// ● Tasks
+// ► Exports
 //------------------------------------------------------------------------------
-// exports.tasks = tasks;
+module.exports = { executeAllTasks };
 
 //------------------------------------------------------------------------------
-// ● Post
+// ● Execute-All-Tasks
 //------------------------------------------------------------------------------
-// exports.post = async function (subredditName, post = {}, schedule = {}) {
-//   try {
-//     const { format = "", oc = true, flairs = ["artwork"] } = post;
-
-//     if (await tooEarlyToPost(schedule)) return;
-//     const { title: imageTitle, url } = await getRandomImage();
-//     let { title = "" } = post;
-//     title = title ? title.replace("{title}", imageTitle) : imageTitle;
-//     const { oc = true, flairs = ["artwork"] } = post;
-//     await submitLink(subredditName, { title, url, oc, flairs });
-//     schedule.$latestSubmitDate = Date.now(); // Do this outside
-//   } catch (err) {
-//     console.error("Reddit", err.stack);
-//   }
-// };
+async function executeAllTasks() {
+  for (const task of tasks) {
+    await _executeTask(task);
+  }
+}
 
 //------------------------------------------------------------------------------
-// ● Too-Early-To-Post
+// ● Execute-Task
 //------------------------------------------------------------------------------
-// async function tooEarlyToPost(schedule = {}) {
-//   const { every: frequencyTimespan = 0 } = schedule;
-//   let { $latestSubmitDate } = schedule;
-//   if (!$latestSubmitDate) {
-//     const submissions = await getLatestSubmissions(subredditName);
-//     if (submissions && submissions.length)
-//       $latestSubmitDate = global.seconds(submissions[0].created_utc);
-//   }
-//   const nextSubmitDate = $latestSubmitDate + frequencyTimespan;
-//   return (Date.now() < nextSubmitDate); // Too early to post
-// }
+async function _executeTask(task = {}) {
+  const { subreddit: subredditName = "", post = {}, schedule = {} } = task;
+  if (!post.format) post.format = "";
+  if (!post.oc) post.oc = true;
+  if (!post.flairs) post.flairs = ["artwork"];
+  if (!schedule.every) schedule.every = days(1);
+
+  if (await _isRightTimeForExecution(task)) {
+    const { title, url } = await randomArtwork();
+    const submission = await submit(subredditName, { title, url, ...post });
+    return submission;
+  }
+}
+
+//------------------------------------------------------------------------------
+// ● Is-Right-Time-For-Execution
+//------------------------------------------------------------------------------
+async function _isRightTimeForExecution(task = {}) {
+  const { subreddit: subredditName = "", schedule = {} } = task;
+  const { every = days(1) } = schedule;
+
+  const latestSubmission = await latestSubmissionByMe(subredditName);
+  if (!latestSubmission) return true;
+
+  const latestDate = dayjs.unix(Number(latestSubmission.created_utc));
+  const nextDate = latestDate.add(every, "millisecond");
+  const now = dayjs();
+
+  const isEarly = now.isBefore(nextDate);
+  if (isEarly)
+    console.warn(
+      "Reddit",
+      `Too early for submitting to r/${subredditName}. It should be ${nextDate.fromNow()}.`
+    );
+  return !isEarly;
+}
