@@ -16,21 +16,22 @@ const { getRandomImage } = require("./image/api");
 (async function test() {
   console.clear();
   console.log("TEST", "باسم الله الرحمان الرحيم");
-  console.log("==================================================".blue);
+  console.log("==================================================");
 
-  const submission = await latestSubmissionByMe("SpecArt");
-  const createdFromNow = _secondsFormattedFromNow(submission.created_utc);
-  console.log();
-  console.log(`"${submission.title}" submitted ${createdFromNow.cyan}.`);
+  const latestSubmission = await latestSubmissionByMe("SpecArt");
+  const latestSubmissionDate = dayjs.unix(Number(latestSubmission.created_utc));
 
-  console.log();
+  const submittingFrequency = 1; // day
+  const nextSubmissionDate = latestSubmissionDate.add(submittingFrequency, "day");
+  const now = dayjs();
 
-  // let frequency = days(1);
-  // let nextSubmitDate = seconds(submission.created_utc) + frequency;
-  // frequency = dayjs(frequency).days();
-  // nextSubmitDate = dayjs(nextSubmitDate).fromNow();
-  // console.log(`Frequency: ${frequency}.`);
-  // console.warn(`Next submission ${nextSubmitDate}...`);
+  console.log(
+    `"${latestSubmission.title}"`, `submitted ${latestSubmissionDate.fromNow()}.`
+  );
+  console.log(`► Next submission`, `must be ${nextSubmissionDate.fromNow()}.`);
+
+  if (now.isBefore(nextSubmissionDate)) console.log("Still early to submit.");
+  else console.log("Submitting now...");
 
   // const { title, url } = await getRandomImage();
   // const submission = await submit("TheRiseOfMyPower", {
@@ -42,12 +43,12 @@ const { getRandomImage } = require("./image/api");
   // });
 })();
 
-function _secondsFormatted(seconds) {
-  const date = dayjs.unix(Number(seconds));
-  return date.format("YYYY MMMM DD dddd, HH:mm:ss (UTCZ) A");
-}
+// function _secondsFormatted(seconds) {
+//   const date = dayjs.unix(Number(seconds));
+//   return date.format("YYYY MMMM DD dddd, HH:mm:ss (UTCZ) A");
+// }
 
-function _secondsFormattedFromNow(seconds) {
-  const date = dayjs.unix(Number(seconds));
-  return date.fromNow();
-}
+// function _secondsFormattedFromNow(seconds) {
+//   const date = dayjs.unix(Number(seconds));
+//   return date.fromNow();
+// }

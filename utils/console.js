@@ -1,81 +1,77 @@
 //==============================================================================
 // ■ Console (console.js)
 //------------------------------------------------------------------------------
-//     Utility functions and objects for imporving the console output.
+//     Custom console functions with improved output.
 //==============================================================================
-const colors = require("colors");
-
-//------------------------------------------------------------------------------
-// ● Available-Console-Colors
-//------------------------------------------------------------------------------
-// magenta, cyan, green, yellow, blue, red, grey
+const chalk = require("chalk");
+/*
+    ● Available-Console-Colors ("bg" prefix for background color):
+    black, red, green, yellow, blue, magenta, cyan, white,
+    blackBright (alias: gray, grey), redBright, greenBright,
+    yellowBright, blueBright, magentaBright, cyanBright, whiteBright
+*/
 
 //------------------------------------------------------------------------------
 // ● Console-Functions-Backup
 //------------------------------------------------------------------------------
 console.log0 = console.log;
+console.warn0 = console.warn;
 console.error0 = console.error;
+
+//------------------------------------------------------------------------------
+// ● Custom-Console-Function
+//------------------------------------------------------------------------------
+function _customConsoleFunction(fn, options = {}) {
+  const { prefix = {}, highlight = {}, normal = {} } = options;
+  return function () {
+    for (let i = 0, length = arguments.length; i < length; i++) {
+      if (i === 0 && length >= 2) {
+        arguments[i] = chalk[highlight.bgColor][highlight.color](
+          ` ${arguments[i].toString()} `
+        );
+        continue;
+      }
+      arguments[i] = chalk[normal.color](arguments[i].toString());
+    }
+    fn(chalk[prefix.bgColor][prefix.color](` ${prefix.text} `), ...arguments);
+  };
+}
 
 //------------------------------------------------------------------------------
 // ● Console-Log
 //------------------------------------------------------------------------------
-console.log = (function (logFn) {
-  return function log() {
-    for (let i = 0, length = arguments.length; i < length; i++) {
-      if (i === 0 && length >= 2) {
-        arguments[i] = ` ${arguments[i].toString()} `.bgGrey;
-        continue;
-      }
-    }
-    logFn(" LOG ".black.bgWhite, ...arguments);
-  };
-})(console.log);
+console.log = _customConsoleFunction(console.log, {
+  prefix: { text: "LOG", color: "black", bgColor: "bgWhite" },
+  highlight: { color: "whiteBright", bgColor: "bgGrey" },
+  normal: { color: "white" },
+});
 
 //------------------------------------------------------------------------------
 // ● Console-Warn
 //------------------------------------------------------------------------------
-console.warn = (function (warnFn) {
-  return function warn() {
-    for (let i = 0, length = arguments.length; i < length; i++) {
-      if (i === 0 && length >= 2) {
-        arguments[i] = ` ${arguments[i].toString()} `.yellow.bgGrey;
-        continue;
-      }
-      arguments[i] = arguments[i].toString().yellow;
-    }
-    warnFn(" WAR ".black.bgYellow, ...arguments);
-  };
-})(console.warn);
+console.warn = _customConsoleFunction(console.warn, {
+  prefix: { text: "WAR", color: "black", bgColor: "bgYellow" },
+  highlight: { color: "yellow", bgColor: "bgGrey" },
+  normal: { color: "yellow" },
+});
 
 //------------------------------------------------------------------------------
 // ● Console-Error
 //------------------------------------------------------------------------------
-console.error = (function (errorFn) {
-  return function () {
-    for (let i = 0, length = arguments.length; i < length; i++) {
-      if (i === 0 && length >= 2) {
-        arguments[i] = ` ${arguments[i].toString()} `.red.bgGrey;
-        continue;
-      }
-      arguments[i] = arguments[i].toString().red;
-    }
-    errorFn(" ERR ".black.bgRed, ...arguments);
-  };
-})(console.error);
+console.error = _customConsoleFunction(console.error, {
+  prefix: { text: "ERR", color: "black", bgColor: "bgRed" },
+  highlight: { color: "redBright", bgColor: "bgGrey" },
+  normal: { color: "red" },
+});
 
 //------------------------------------------------------------------------------
 // ● Console-Success
 //------------------------------------------------------------------------------
-console.success = function () {
-  for (let i = 0, length = arguments.length; i < length; i++) {
-    if (i === 0 && length >= 2) {
-      arguments[i] = ` ${arguments[i].toString()} `.green.bgGrey;
-      continue;
-    }
-    arguments[i] = arguments[i].toString().green;
-  }
-  console.log0(" SUC ".black.bgGreen, ...arguments);
-};
+console.success = _customConsoleFunction(console.log0, {
+  prefix: { text: "SUC", color: "black", bgColor: "bgGreen" },
+  highlight: { color: "greenBright", bgColor: "bgGrey" },
+  normal: { color: "green" },
+});
 
 //------------------------------------------------------------------------------
 // ● Console-Clear
