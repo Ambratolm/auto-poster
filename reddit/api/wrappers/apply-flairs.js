@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// ● Apply-Flairs
+// ► Apply-Flairs
 //------------------------------------------------------------------------------
 module.exports = async function applyFlairs(submission, flairsTexts = []) {
   try {

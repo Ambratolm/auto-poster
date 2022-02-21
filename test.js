@@ -14,8 +14,9 @@ _header();
 const { submit, latestSubmissionByMe } = require("./reddit/api");
 const { randomArtwork } = require("./image/api");
 (async function test() {
-  await executeAllTasks();
-  console.log(":D");
+  // await executeAllTasks();
+  console.log((await latestSubmissionByMe("TheRiseOfMyPower")).title);
+  console.log("END");
 })();
 
 //------------------------------------------------------------------------------

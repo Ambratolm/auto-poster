@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// ● Search
+// ► Search
 //------------------------------------------------------------------------------
 module.exports = async function search(subreddit, options = {}) {
   try {
@@ -7,7 +7,7 @@ module.exports = async function search(subreddit, options = {}) {
     const submissions = await subreddit.search({ query, sort, limit });
     console.log(
       "Reddit/API",
-      `Found ${submissions.length} submissions in r/${subreddit.display_name} matching ${query}.`
+      `Found ${submissions.length} ${sort} submissions in r/${subreddit.display_name} matching ${query}.`
     );
     return submissions;
   } catch (err) {

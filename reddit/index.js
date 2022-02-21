@@ -56,7 +56,7 @@ async function _isRightTimeForExecution(task = {}) {
   if (isEarly)
     console.warn(
       "Reddit",
-      `Too early for submitting to r/${subredditName}. It should be ${nextDate.fromNow()}.`
+      `Too early for submitting to r/${subredditName}. Latest submission was ${latestDate.fromNow()}. Next one should be submitted ${nextDate.fromNow()} or later.`
     );
   return !isEarly;
 }

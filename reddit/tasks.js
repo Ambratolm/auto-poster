@@ -17,7 +17,7 @@ function tasks() {
     {
       subreddit: "TheRiseOfMyPower",
       post: { format: "{title}, by me", oc: true, flairs: ["Artwork"] },
-      schedule: { every: hours(20) },
+      schedule: { every: hours(5) },
     },
 
     // {
