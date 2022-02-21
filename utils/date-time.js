@@ -3,8 +3,10 @@
 //------------------------------------------------------------------------------
 //     Date and Time related utilities.
 //==============================================================================
-const relativeTime = require("dayjs/plugin/relativeTime");
 const dayjs = require("dayjs");
+const duration = require("dayjs/plugin/duration");
+const relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
 //------------------------------------------------------------------------------

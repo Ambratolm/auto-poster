@@ -15,7 +15,10 @@ const { submit, latestSubmissionByMe } = require("./reddit/api");
 const { randomArtwork } = require("./image/api");
 (async function test() {
   // await executeAllTasks();
-  console.log((await latestSubmissionByMe("TheRiseOfMyPower")).title);
+  // console.log((await latestSubmissionByMe("TheRiseOfMyPower")).title);
+  const every = { value: "P2S", unit: "" };
+  every.toString = function() { return this.value + " " + this.unit };
+  console.log(every, dayjs.duration(every.value).humanize());
   console.log("END");
 })();
 

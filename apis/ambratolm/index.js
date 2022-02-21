@@ -1,7 +1,7 @@
 ///==============================================================================
-// ■ Image-API (image/api.js)
+// ■ Ambratolm (ambratolm/index.js)
 //------------------------------------------------------------------------------
-//     Image API access service for retrieving postable images.
+//     Ambratolm API access service.
 //==============================================================================
 const { get } = require("axios");
 
@@ -22,8 +22,11 @@ async function randomArtwork(options = {}) {
   try {
     const { blob } = options;
     const image = (await get(RANDOM_ARTWORK_URL)).data;
-    if (blob) image.blob = await get(image.url);
     console.success("Image/API", `Random image ${image.name} retrieved.`);
+    if (blob) {
+      image.blob = await get(image.url);
+      console.success("Image/API", `Blob for ${image.name} retrieved.`);
+    }
     return image;
   } catch (err) {
     console.error(
