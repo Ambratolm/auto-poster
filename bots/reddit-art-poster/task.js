@@ -1,24 +1,32 @@
-//==============================================================================
-// ■ Random-Artwork-Poster (random-artwork-poster.js)
+///==============================================================================
+// ■ Reddit-Art-Poster-Task (reddit-art-poster/task.js)
 //------------------------------------------------------------------------------
-//     A bot that posts random artworks by Ambratolm to social media.
+//     A class representing a reddit artwork posting task.
 //==============================================================================
 const ambratolm = require("../../apis/ambratolm/");
 const reddit = require("../../apis/reddit/");
 
-//------------------------------------------------------------------------------
+///------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-// module.exports = { executeAllTasks };
-
-//------------------------------------------------------------------------------
-// ● Execute-All-Tasks
-//------------------------------------------------------------------------------
-// async function executeAllTasks() {
-//   for (const task of tasks) {
-//     await _executeTask(task);
-//   }
-// }
+module.exports = class RedditArtPosterTask {
+  constructor(obj) {
+    const { subreddit = "", post = {}, schedule = {} } = obj;
+    const { title = "", oc = false, flairs = [] } = post;
+    const { every = "P1D" } = schedule;
+    this.subreddit = subreddit;
+    this.post = post;
+    this.post.title = title;
+    this.post.oc = oc;
+    this.post.flairs = flairs;
+    this.schedule = schedule;
+    this.schedule.every = every;
+  }
+  toString() {
+    return `Task: Post on r/${this.subreddit} every ${this.schedule.every}.`;
+  }
+  execute() {}
+};
 
 //------------------------------------------------------------------------------
 // ● Execute-Task

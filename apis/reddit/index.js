@@ -60,7 +60,7 @@ async function getNewByMe(subredditName, options = {}) {
     const { name } = await REQUESTER.getMe();
     const submissions = await subreddit.search({
       query: `author:${name}`,
-      sort = "new",
+      sort: "new",
       limit,
     });
     if (submissions && submissions.length) {

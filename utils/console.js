@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //     Custom console functions with improved output.
 //==============================================================================
-const chalk = require("chalk");
+global.chalk = require("chalk");
 /*
     ● Available-Console-Colors ("bg" prefix for background color):
     black, red, green, yellow, blue, magenta, cyan, white,

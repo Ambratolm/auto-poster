@@ -3,16 +3,11 @@
 //------------------------------------------------------------------------------
 //     Date and Time related utilities.
 //==============================================================================
-const dayjs = require("dayjs");
+global.dayjs = require("dayjs");
 const duration = require("dayjs/plugin/duration");
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
-
-//------------------------------------------------------------------------------
-// ● DayJS
-//------------------------------------------------------------------------------
-global.dayjs = dayjs;
 
 //------------------------------------------------------------------------------
 // ● Converters

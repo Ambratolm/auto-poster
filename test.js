@@ -4,31 +4,28 @@
 //     This file is only used for testing purpose.
 //==============================================================================
 require("./utils/");
-const { executeAllTasks } = require("./reddit/");
-const chalk = require("chalk");
-_header();
+const redditArtPoster = require("./bots/reddit-art-poster/");
 
 //------------------------------------------------------------------------------
-// ● Tests
+// ● Test
 //------------------------------------------------------------------------------
-const { submit, latestSubmissionByMe } = require("./reddit/api");
-const { randomArtwork } = require("./image/api");
-(async function test() {
-  // await executeAllTasks();
-  // console.log((await latestSubmissionByMe("TheRiseOfMyPower")).title);
-  const every = { value: "P2S", unit: "" };
-  every.toString = function() { return this.value + " " + this.unit };
-  console.log(every, dayjs.duration(every.value).humanize());
-  console.log("END");
-})();
+async function test() {
+  redditArtPoster.log();
+};
 
 //------------------------------------------------------------------------------
-// ● Test-Header
+// ● Header
 //------------------------------------------------------------------------------
-function _header() {
+function header() {
   console.clear();
-  const line = "==================================================";
-  console.log("TEST", chalk.grey(line));
-  console.log("TEST", chalk.white("\t\tباسم الله الرحمان الرحيم"));
-  console.log("TEST", chalk.grey(line));
+  const line = "*==================================================*";
+  console.log(chalk.grey(line));
+  console.log(chalk.white("\t\tباسم الله الرحمان الرحيم"));
+  console.log(chalk.grey(line));
 }
+
+//------------------------------------------------------------------------------
+// ► Execution
+//------------------------------------------------------------------------------
+header();
+test();
