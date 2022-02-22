@@ -55,7 +55,7 @@ async function submitLink(subredditName, post = {}) {
 //------------------------------------------------------------------------------
 async function getNewByMe(subredditName, options = {}) {
   try {
-    const { one, limit = 5 } = options;
+    const { one, limit = one ? 1 : 5 } = options;
     const subreddit = REQUESTER.getSubreddit(subredditName);
     const { name } = await REQUESTER.getMe();
     const submissions = await subreddit.search({
@@ -70,7 +70,7 @@ async function getNewByMe(subredditName, options = {}) {
       );
       return one ? submissions[0] : submissions;
     }
-  } catch(e) {
+  } catch (e) {
     console.warn(
       "Reddit/API",
       `Could not search for new submissions by ${name} in r/${subredditName}.`
