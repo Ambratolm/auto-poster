@@ -43,19 +43,13 @@ async function save() {
 // ● Log
 //------------------------------------------------------------------------------
 async function log() {
-  console.log("Reddit/Art-Poster", "");
   const count = chalk.cyanBright(`${tasklist.length} tasks`);
-  console.log(`\t• Tasks: ${count}`);
+  console.log("Reddit/Art-Poster", count);
   for (const task of TASKS) {
-    const subreddit = `r/${task.subreddit}`;
-    const every = dayjs.duration(task.schedule.every).humanize();
-    const ready = (await task.ready({ remote: false }))
-      ? chalk.green("Ready")
-      : chalk.red("Not ready");
-    console.log(
-      `\t\t→ ${subreddit} ${chalk.cyan(`every ${every}`)}. ${ready}.`
-    );
-    await save();
+    let ready = await task.ready({ remote: false });
+    ready = ready ? chalk.green("Ready") : chalk.red("Unready");
+    console.log(`\t→ [${ready}] ${task}.`);
+    // await save();
     // await sleep(10000);
   }
 }

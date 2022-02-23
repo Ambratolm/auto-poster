@@ -4,13 +4,11 @@
     "post": {
       "title": "{artwork-title}, by me",
       "oc": true,
-      "flairs": [
-        "artwork"
-      ]
+      "flairs": ["artwork"]
     },
     "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-21T05:39:13+01:00"
+      "every": "PT1H",
+      "latest": "2022-02-23T03:24:05+01:00"
     }
   },
   {
@@ -18,97 +16,32 @@
     "post": {
       "title": "{artwork-title}, me, mix, {random-year}",
       "oc": true,
-      "flairs": [
-        "artwork"
-      ]
+      "flairs": ["artwork"]
     },
     "schedule": {
       "every": "P2D",
-      "$latest": "2021-12-11T03:24:05+01:00"
+      "latest": "2022-02-23T03:24:05+01:00"
     }
   },
   {
-    "subreddit": "SpecArt",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-19T02:35:05+01:00"
-    }
+    "subreddit": "SpecArt"
   },
   {
-    "subreddit": "drawing",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-19T02:35:09+01:00"
-    }
+    "subreddit": "drawing"
   },
   {
-    "subreddit": "conceptart",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-19T02:35:14+01:00"
-    }
+    "subreddit": "conceptart"
   },
   {
-    "subreddit": "ArtBuddy",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-19T02:35:18+01:00"
-    }
+    "subreddit": "ArtBuddy"
   },
   {
-    "subreddit": "IDAP",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-17T23:24:23+01:00"
-    }
+    "subreddit": "IDAP"
   },
   {
-    "subreddit": "Illustration",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-17T23:24:31+01:00"
-    }
+    "subreddit": "Illustration"
   },
   {
-    "subreddit": "pics",
-    "post": {
-      "title": "",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "every": "P1D",
-      "$latest": "2022-02-17T23:24:39+01:00"
-    }
+    "subreddit": "pics"
   }
 ]
