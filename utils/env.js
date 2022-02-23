@@ -1,16 +1,14 @@
 //==============================================================================
-// ■ Environment (environment.js)
+// ■ Environment (env.js)
 //------------------------------------------------------------------------------
 //     Runtime environment utilities.
 //==============================================================================
-const dotenv = require("dotenv");
-const chalk = require("chalk");
 
 //------------------------------------------------------------------------------
 // ● Environment
 //------------------------------------------------------------------------------
 global.env = {
-  vars: dotenv.config().parsed,
+  vars: require("dotenv").config().parsed,
   isDev:
     process.env.NODE_ENV === "development" ||
     process.env.NODE_ENV === "dev" ||

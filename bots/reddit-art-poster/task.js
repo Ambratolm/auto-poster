@@ -5,34 +5,28 @@
 //==============================================================================
 const ambratolm = require("../../apis/ambratolm/");
 const reddit = require("../../apis/reddit/");
+const Schedule = require("../../core/schedule");
 
 ///------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
 module.exports = class RedditArtPosterTask {
   subreddit = "";
-  post = { title: "{artwork-title}", oc: false, flairs: [] };
-  schedule = {
-    every: "P1D",
-    latest: null,
-    get everyDuration() {
-      return dayjs.duration(this.every);
+  post = {
+    title: "{artwork-title}",
+    oc: false,
+    flairs: [],
+    toString() {
+      const title = `"${this.title}"`;
+      const oc = this.oc ? "OC" : "!OC";
+      const flairs = `[${this.flairs}]`;
+      return `${title}, ${oc}, ${flairs}`;
     },
-    get latestDate() {
-      return dayjs(this.latest);
-    },
-    get nextDate() {
-      return this.latestDate.isValid()
-        ? this.latestDate.add(this.everyDuration)
-        : dayjs();
-    },
-    get isAlready() {
-      return !this.nextDate.isAfter(dayjs()); // By now or before
-    }
   };
+  schedule = new Schedule();
 
-  constructor(redditArtPosterTaskObj) {
-    const { subreddit, post, schedule } = redditArtPosterTaskObj;
+  constructor(redditArtPosterTask) {
+    const { subreddit, post, schedule } = redditArtPosterTask;
     if (subreddit) this.subreddit = subreddit;
     if (post) {
       const { title, oc, flairs } = post;
@@ -41,9 +35,9 @@ module.exports = class RedditArtPosterTask {
       if (flairs) this.post.flairs = flairs;
     }
     if (schedule) {
-      const { every, latest } = schedule;
-      if (every) this.schedule.every = every;
-      if (latest) this.schedule.latest = latest;
+      const { interval, reference } = schedule;
+      if (interval) this.schedule.interval = interval;
+      if (reference) this.schedule.reference = reference;
     }
   }
 
@@ -54,7 +48,7 @@ module.exports = class RedditArtPosterTask {
         .replace("{artwork-title}", artwork.title)
         .replace("{random-year}", random(2020, dayjs().year()));
       const submission = await reddit.submitLink(this.subreddit, this.post);
-      this.schedule.latest = dayjs().format();
+      this.schedule.reference = dayjs().format();
       return submission;
     }
   }
@@ -62,16 +56,17 @@ module.exports = class RedditArtPosterTask {
   async ready(options = {}) {
     const { remote = true, warn } = options;
     let isReady = true;
-    if (!this.schedule.latest && remote) {
-      const latestSubmission = await reddit.getNewByMe(this.subreddit, {
+    if (!this.schedule.reference && remote) {
+      const referenceSubmission = await reddit.getNewByMe(this.subreddit, {
         one: true,
       });
-      if (latestSubmission) {
-        const createdDate = dayjs.unix(Number(latestSubmission.created_utc));
-        if (createdDate.isValid()) this.schedule.latest = createdDate.format();
+      if (referenceSubmission) {
+        const createdDate = dayjs.unix(Number(referenceSubmission.created_utc));
+        if (createdDate.isValid())
+          this.schedule.reference = createdDate.format();
       }
     }
-    if (this.schedule.latestDate.isValid()) {
+    if (this.schedule.referenceDate) {
       isReady = this.schedule.isAlready;
     }
     if (warn && !isReady) {
@@ -79,30 +74,14 @@ module.exports = class RedditArtPosterTask {
         "Reddit/ArtPoster/Task",
         `Too early for submitting to r/${
           this.subreddit
-        }. Latest submission was ${this.schedule.latestDate.fromNow()}. Next one should be submitted ${this.schedule.nextDate.fromNow()} or later.`
+        }. reference submission was ${this.schedule.referenceDate.fromNow()}. Next one should be submitted ${this.schedule.intendedDate.fromNow()} or later.`
       );
     }
     return isReady;
   }
 
   toString() {
-    let { subreddit } = this;
-    let { title, oc, flairs } = this.post;
-    let { everyDuration, latestDate, nextDate, isAlready } = this.schedule;
-    subreddit = subreddit ? `r/${subreddit}` : "r/?";
-    title = title ? `"${title}"` : `"?"`;
-    oc = oc ? "OC" : "!OC";
-    oc = chalk.cyan(oc);
-    flairs = chalk.cyan(`[${flairs}]`);
-    everyDuration = everyDuration.humanize();
-    everyDuration = everyDuration.replace("a ", "").replace("an ", "");
-    everyDuration = `every ${everyDuration}`;
-    everyDuration = chalk.yellow(everyDuration);
-    latestDate = latestDate.isValid() ? dayjs(latestDate).fromNow() : "?";
-    latestDate = chalk.yellowBright(`latest ${latestDate}`);
-    nextDate = nextDate.isValid() ? nextDate.fromNow() : "?";
-    nextDate = `next ${nextDate}`;
-    nextDate = isAlready ? chalk.green(nextDate) : chalk.red(nextDate);
-    return `${subreddit}, ${title}, ${oc}, ${flairs} - ${everyDuration}, ${latestDate}, ${nextDate}`;
+    const subreddit = chalk.whiteBright(`r/${this.subreddit}`);
+    return `${subreddit}, ${this.post}, ${this.schedule}`;
   }
 };
