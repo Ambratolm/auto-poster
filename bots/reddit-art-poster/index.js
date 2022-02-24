@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //     A bot that posts random artworks (by Ambratolm) on social media.
 //==============================================================================
-const RedditArtPosterTask = require("./task");
+const Task = require("./task");
 const tasklist = require("./tasklist.json");
 const { promisify } = require("util");
 const { join } = require("path");
@@ -13,21 +13,37 @@ const sleep = promisify(setTimeout);
 //------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-module.exports = { log, run };
+module.exports = { log, run, fetchScheduleRefs };
 
 //------------------------------------------------------------------------------
 // ● Tasks
 //------------------------------------------------------------------------------
 const TASKS = (function parseTasklist() {
   const tasks = [];
-  for (taskObj of tasklist) tasks.push(new RedditArtPosterTask(taskObj));
+  for (task of tasklist) tasks.push(new Task(task));
   return tasks;
 })();
 
 //------------------------------------------------------------------------------
 // ● Run
 //------------------------------------------------------------------------------
-async function run() {}
+async function run() {
+  for (const task of TASKS) {
+    await task.execute();
+    await sleep(random(1000, 5000));
+  }
+}
+
+//------------------------------------------------------------------------------
+// ● Fetch-Schedule-References
+//------------------------------------------------------------------------------
+async function fetchScheduleRefs() {
+  for (const task of TASKS) {
+    await task.fetchScheduleReference();
+    await sleep(random(1000, 5000));
+  }
+  await save();
+}
 
 //------------------------------------------------------------------------------
 // ● Save
@@ -42,14 +58,14 @@ async function save() {
 //------------------------------------------------------------------------------
 // ● Log
 //------------------------------------------------------------------------------
-async function log() {
+async function log(options = {}) {
+  const { spaced } = options;
   const count = chalk.cyanBright(`${tasklist.length} tasks`);
   console.log("Reddit/Art-Poster", count);
   for (const task of TASKS) {
-    let ready = await task.ready({ remote: false });
-    ready = ready ? chalk.green("Ready") : chalk.red("Unready");
-    console.log(`\t→ [${ready}] ${task}.`);
-    // await save();
-    // await sleep(10000);
+    if (spaced) console.line();
+    console.log(`\t${task.toString("post")}.`);
+    console.log(`\t\t${task.toString("schedule")}.`);
   }
+  if (spaced) console.line();
 }

@@ -33,36 +33,34 @@ module.exports = class Schedule {
       : dayjs();
   }
 
-  get isAlready() {
+  get isReady() {
     return !this.intendedDate.isAfter(dayjs()); // Is by now or before
   }
 
   toString() {
     let intervalText = chalk.grey("no recurrence");
     let referenceText = chalk.grey("never done");
-    let intendedText = this.intendedDate.fromNow();
-
+    let intendedText = this.intendedDate.isSame(dayjs())
+      ? "now"
+      : this.intendedDate.fromNow();
     if (this.intervalDuration) {
       intervalText = this.intervalDuration
         .humanize()
         .replace("a ", "")
         .replace("an ", "");
-      intervalText = chalk.whiteBright(`every ${intervalText}`);
+      intervalText = `do every ${intervalText}`;
     }
-
     if (this.referenceDate) {
       referenceText = this.referenceDate.fromNow();
-      referenceText = chalk.whiteBright(`lately done ${referenceText}`);
+      referenceText = chalk.cyan(`done ${referenceText}`);
     }
-
-    if (this.isAlready) {
-      intendedText = `is ready ${intendedText}`;
+    if (this.isReady) {
+      intendedText = `ready to do ${intendedText}`;
       intendedText = chalk.green(intendedText);
     } else {
-      intendedText = `will be ready ${intendedText}`;
+      intendedText = `to do ${intendedText}`;
       intendedText = chalk.red(intendedText);
     }
-
     return `${intervalText}, ${referenceText}, ${intendedText}`;
   }
 };

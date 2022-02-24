@@ -10,7 +10,9 @@ const redditArtPoster = require("./bots/reddit-art-poster/");
 // ● Test
 //------------------------------------------------------------------------------
 async function test() {
-  redditArtPoster.log();
+  // await redditArtPoster.fetchScheduleRefs();
+  // await redditArtPoster.run();
+  redditArtPoster.log({ spaced: true });
 };
 
 //------------------------------------------------------------------------------
@@ -18,10 +20,9 @@ async function test() {
 //------------------------------------------------------------------------------
 function header() {
   console.clear();
-  const line = "*==================================================*";
-  console.log(chalk.grey(line));
+  console.line("=");
   console.log(chalk.white("\t\tباسم الله الرحمان الرحيم"));
-  console.log(chalk.grey(line));
+  console.line("=");
 }
 
 //------------------------------------------------------------------------------
