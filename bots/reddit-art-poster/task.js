@@ -18,7 +18,7 @@ module.exports = class Task {
 
   constructor(task = {}) {
     const { subreddit, post, schedule } = task;
-    this.subreddit = subreddit || "";
+    if (subreddit) this.subreddit = subreddit.trim();
     this.post = new Post(post);
     this.schedule = new Schedule(schedule);
   }
@@ -28,20 +28,25 @@ module.exports = class Task {
   }
 
   async execute() {
-    if (this.schedule.isReady) {
-      const artwork = await ambratolm.randomArtwork();
-      this.post.formatTitle({ artworkTitle: artwork.title });
-      const submission = await reddit.submitLink(this.subreddit, this.post);
-      this.schedule.reference = dayjs().format();
-      return submission;
-    } else {
+    if (!this.subreddit.trim()) {
+      console.warn("Reddit/ArtPoster/Task", "No subreddit provided.");
+      return;
+    }
+    if (!this.schedule.isReady) {
       console.warn(
         "Reddit/ArtPoster/Task",
         `Too early for submitting to ${
           this.subredditPrefixed
         }. latest submission was ${this.schedule.referenceDate.fromNow()}. Next one should be submitted ${this.schedule.intendedDate.fromNow()} or later.`
       );
+      return;
     }
+    const artwork = await ambratolm.randomArtwork();
+    this.post.formatTitle({ artworkTitle: artwork.title });
+    this.post.url = artwork.url; // this will be saved to JSON noooooo fix it!!!
+    const submission = await reddit.submitLink(this.subreddit, this.post);
+    if (submission) this.schedule.reference = dayjs().format();
+    return submission;
   }
 
   async fetchScheduleReference() {

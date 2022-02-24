@@ -10,9 +10,7 @@ const redditArtPoster = require("./bots/reddit-art-poster/");
 // ● Test
 //------------------------------------------------------------------------------
 async function test() {
-  // await redditArtPoster.fetchScheduleRefs();
-  // await redditArtPoster.run();
-  redditArtPoster.log({ spaced: true });
+  await redditArtPoster();
 };
 
 //------------------------------------------------------------------------------

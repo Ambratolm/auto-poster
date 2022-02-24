@@ -39,7 +39,7 @@ async function submitLink(subredditName, post = {}) {
       `"${title}" submitted to r/${subredditName} as ${submission.name}.`
     );
     if (oc) await markAsOC(REQUESTER, subredditName, submission.name);
-    if (flairs.length) await selectFlairs(submission, flairs);
+    if (flairs.length) await applyFlairs(submission, flairs);
     return submission;
   } catch (err) {
     console.error(

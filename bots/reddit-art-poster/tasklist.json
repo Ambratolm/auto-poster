@@ -1,19 +1,5 @@
 [
   {
-    "subreddit": "TheRiseOfMyPower",
-    "post": {
-      "title": "{artwork-title}, by me",
-      "oc": true,
-      "flairs": [
-        "artwork"
-      ]
-    },
-    "schedule": {
-      "interval": "PT1H",
-      "reference": "2022-02-21T05:39:13+01:00"
-    }
-  },
-  {
     "subreddit": "Art",
     "post": {
       "title": "{artwork-title}, me, mix, {random-year}",
@@ -68,7 +54,9 @@
     "post": {
       "title": "{artwork-title}",
       "oc": false,
-      "flairs": []
+      "flairs": [
+        "art showcase"
+      ]
     },
     "schedule": {
       "interval": "P1D",
@@ -103,7 +91,7 @@
     "subreddit": "pics",
     "post": {
       "title": "{artwork-title}",
-      "oc": false,
+      "oc": true,
       "flairs": []
     },
     "schedule": {

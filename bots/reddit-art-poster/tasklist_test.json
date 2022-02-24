@@ -1,0 +1,30 @@
+[
+  {
+    "subreddit": "TheRiseOfMyPower",
+    "post": {
+      "title": "[Test-0] {artwork-title}",
+      "oc": true,
+      "flairs": [
+        "test"
+      ]
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": "2022-02-25T00:01:42+01:00"
+    }
+  },
+  {
+    "subreddit": "TheRiseOfMyPower",
+    "post": {
+      "title": "[Test-1] {artwork-title} {random-year}",
+      "oc": false,
+      "flairs": [
+        "artwork"
+      ]
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": "2022-02-21T05:39:13+01:00"
+    }
+  }
+]

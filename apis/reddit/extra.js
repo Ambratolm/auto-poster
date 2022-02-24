@@ -46,7 +46,10 @@ async function applyFlairs(submission, flairsTexts = []) {
     if (allFlairs && allFlairs.length) {
       const flairs = allFlairs.filter(function (flair) {
         for (const flairText of flairsTexts) {
-          if (flairText.toLowerCase() === flair.flair_text.toLowerCase()) {
+          if (
+            flairText.trim().toLowerCase() ===
+            flair.flair_text.trim().toLowerCase()
+          ) {
             return true;
           }
         }

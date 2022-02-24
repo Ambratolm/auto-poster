@@ -14,7 +14,7 @@ module.exports = class Post {
 
   constructor(post = {}) {
     const { title, oc, flairs } = post;
-    if (title) this.title = title;
+    if (title) this.title = title.trim();
     if (oc) this.oc = oc;
     if (flairs && flairs.length) this.flairs = flairs;
   }
@@ -22,7 +22,7 @@ module.exports = class Post {
   formatTitle(tokens = {}) {
     const { artworkTitle } = tokens;
     this.title = this.title
-      .replace("{artwork-title}", artwork.title)
+      .replace("{artwork-title}", artworkTitle)
       .replace("{random-year}", random(2020, dayjs().year()));
     return this.title;
   }
