@@ -8,7 +8,7 @@
 // ► Exports
 //------------------------------------------------------------------------------
 module.exports = class Post {
-  title = "{artwork-title}";
+  title = "{0}";
   oc = false;
   flairs = [];
 
@@ -19,12 +19,12 @@ module.exports = class Post {
     if (flairs && flairs.length) this.flairs = flairs;
   }
 
-  formatTitle(tokens = {}) {
-    const { artworkTitle } = tokens;
-    this.title = this.title
-      .replace("{artwork-title}", artworkTitle)
-      .replace("{random-year}", random(2020, dayjs().year()));
-    return this.title;
+  formattedTitle(values = []) {
+    let { title } = this;
+    for(let i = 0; i < values.length; i++){
+      title = title.replace(`{${i}}`, values[i]);
+    }
+    return title.replace(/{\d+}/g, "...");
   }
 
   toString() {

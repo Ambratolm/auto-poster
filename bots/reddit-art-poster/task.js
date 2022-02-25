@@ -42,9 +42,14 @@ module.exports = class Task {
       return;
     }
     const artwork = await ambratolm.randomArtwork();
-    this.post.formatTitle({ artworkTitle: artwork.title });
-    this.post.url = artwork.url; // this will be saved to JSON noooooo fix it!!!
-    const submission = await reddit.submitLink(this.subreddit, this.post);
+    const submission = await reddit.submitLink(this.subreddit, {
+      ...this.post,
+      title: this.post.formattedTitle([
+        artwork.title,
+        random(2020, dayjs().year()),
+      ]),
+      url: artwork.url
+    });
     if (submission) this.schedule.reference = dayjs().format();
     return submission;
   }

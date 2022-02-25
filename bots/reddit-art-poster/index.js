@@ -10,11 +10,11 @@ const Tasklist = require("./tasklist");
 //------------------------------------------------------------------------------
 module.exports = async function redditArtPoster() {
   try {
-    const tasklist = new Tasklist("./tasklist_test.json");
+    const tasklist = new Tasklist("./tasklist.json");
 
-    // tasklist.log();
-    // await tasklist.fetchSchedRefs();
     tasklist.log();
+    // await tasklist.fetchSchedRefs();
+    // tasklist.log();
 
     await tasklist.run();
   } catch(err) {

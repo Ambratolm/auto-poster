@@ -39,6 +39,7 @@ module.exports = class Tasklist {
   async run(options = {}) {
     const { save = true } = options;
     for (const task of this._tasks) {
+      console.line();
       await task.execute();
       await sleep(random(1000, 5000));
     }

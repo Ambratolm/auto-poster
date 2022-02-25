@@ -2,7 +2,7 @@
   {
     "subreddit": "Art",
     "post": {
-      "title": "{artwork-title}, me, mix, {random-year}",
+      "title": "{0}, me, mix, {1}",
       "oc": true,
       "flairs": [
         "artwork"
@@ -16,43 +16,43 @@
   {
     "subreddit": "SpecArt",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": false,
       "flairs": []
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-19T02:35:05+01:00"
+      "reference": "2022-02-25T06:40:25+01:00"
     }
   },
   {
     "subreddit": "drawing",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": false,
       "flairs": []
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-19T02:35:09+01:00"
+      "reference": "2022-02-25T06:40:31+01:00"
     }
   },
   {
     "subreddit": "conceptart",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": false,
       "flairs": []
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-19T02:35:14+01:00"
+      "reference": "2022-02-25T06:40:35+01:00"
     }
   },
   {
     "subreddit": "ArtBuddy",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": false,
       "flairs": [
         "art showcase"
@@ -60,43 +60,43 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-19T02:35:18+01:00"
+      "reference": "2022-02-25T06:40:39+01:00"
     }
   },
   {
     "subreddit": "IDAP",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": false,
       "flairs": []
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-17T23:24:23+01:00"
+      "reference": "2022-02-25T06:40:43+01:00"
     }
   },
   {
     "subreddit": "Illustration",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": false,
       "flairs": []
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-17T23:24:31+01:00"
+      "reference": "2022-02-25T06:40:49+01:00"
     }
   },
   {
     "subreddit": "pics",
     "post": {
-      "title": "{artwork-title}",
+      "title": "{0}",
       "oc": true,
       "flairs": []
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-17T23:24:39+01:00"
+      "reference": "2022-02-25T06:40:54+01:00"
     }
   }
 ]
