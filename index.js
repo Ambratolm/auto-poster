@@ -4,32 +4,42 @@
 //     Main entry point.
 //==============================================================================
 require("./utils/");
-const redditArtPoster = require("./bots/reddit-art-poster/");
-
-//------------------------------------------------------------------------------
-// ● Main
-//------------------------------------------------------------------------------
-async function main(delayDuration) {
-  console.clear();
-  console.log("Auto-Poster", "Start");
-  await redditArtPoster();
-  if (delayDuration) {
-    console.log();
-    console.log(`► Next iteration ${delayDuration.humanize(true)}...`);
-  }
-}
+const { name, version } = require("./package.json");
+const redditArtPoster = require("./bots/reddit-art-poster/")(
+  "./data/rap-tasklist-test.json"
+);
 
 //------------------------------------------------------------------------------
 // ► Execution
 //------------------------------------------------------------------------------
-const delayDuration = dayjs.duration(1, "days");
-main(delayDuration);
-setInterval(main, delayDuration.asMilliseconds(), delayDuration);
+console.clear();
+console.header();
+const intervalDuration = dayjs.duration(1, "days");
+repeat(main, {
+  delay: intervalDuration.asMilliseconds(),
+  immediate: true,
+  args: [intervalDuration],
+});
 
 //------------------------------------------------------------------------------
-// ● Catch-Uncaught-Exceptions
+// ● Main
 //------------------------------------------------------------------------------
-process.on("uncaughtException", (err) => {
-  console.error("There was an uncaught error", err.stack);
-  process.exit(1);
-});
+async function main(intervalDuration) {
+  try {
+    //--------------------------------------------------------------------------
+    // ● Reddit-Art-Poster
+    //--------------------------------------------------------------------------
+    redditArtPoster.log();
+    console.line("=");
+    await redditArtPoster.fetchSchedRefs();
+    console.line("=");
+    // await redditArtPoster.run();
+    // console.line("=");
+    //--------------------------------------------------------------------------
+    if (intervalDuration) {
+      console.log(`► Next iteration ${intervalDuration.humanize(true)}...`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}

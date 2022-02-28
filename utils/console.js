@@ -69,8 +69,27 @@ console.success = $consoleFnPatcher(console.$log, {
 //------------------------------------------------------------------------------
 // ● Console-Line
 //------------------------------------------------------------------------------
-console.line = function (char = "-") {
-  console.log(chalk.grey(char.repeat(50)));
+console.line = function (char = "-", color = "grey", count = 70)  {
+  console.log(chalk[color]((char).substring(0, 1).repeat(count)));
+};
+
+//------------------------------------------------------------------------------
+// ● Console-Header
+//------------------------------------------------------------------------------
+console.header = function header() {
+  const { name, version } = require(require("path").resolve("package.json"));
+  console.line("=");
+  console.log(`■ ${name} v${version}`, "باسم الله الرحمان الرحيم");
+  console.line("=");
+};
+
+//------------------------------------------------------------------------------
+// ● Console-Progress
+//------------------------------------------------------------------------------
+console.progress = function (text = "") {
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+  process.stdout.write(text);
 };
 
 //------------------------------------------------------------------------------

@@ -48,7 +48,7 @@ module.exports = class Task {
         artwork.title,
         random(2020, dayjs().year()),
       ]),
-      url: artwork.url
+      url: artwork.url,
     });
     if (submission) this.schedule.reference = dayjs().format();
     return submission;
@@ -60,7 +60,21 @@ module.exports = class Task {
     });
     if (latestSubmission) {
       const createdDate = dayjs.unix(Number(latestSubmission.created_utc));
-      if (createdDate.isValid()) this.schedule.reference = createdDate.format();
+      if (createdDate.isValid()) {
+        this.schedule.reference = createdDate.format();
+        console.success(
+          "Reddit/ArtPoster/Task",
+          `Updated schedule reference to: done ${createdDate.fromNow()}.`
+        );
+        console.log(`\t${this.toString("post")}.`);
+        console.log(`\t\t${this.toString("schedule")}.`);
+      } else {
+        console.error(
+          "Reddit/ArtPoster/Task",
+          "Could not update schedule reference.",
+          "Fetched date is invalid."
+        );
+      }
     }
   }
 

@@ -4,7 +4,7 @@
 //     A class representing a list of reddit artwork posting tasks.
 //==============================================================================
 const Task = require("./task");
-const { join } = require("path");
+const { join, resolve } = require("path");
 const writeFile = require("util").promisify(require("fs").writeFile);
 
 ///------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ module.exports = class Tasklist {
 
   constructor(tasklist = "") {
     if (typeof tasklist === "string") {
-      tasklist = require((this.filePath = tasklist));
+      tasklist = require(resolve(this.filePath = tasklist));
     }
     this.add(tasklist);
   }
@@ -58,8 +58,7 @@ module.exports = class Tasklist {
   async save() {
     const json = JSON.stringify(this._tasks, null, 2);
     if (json === undefined) throw Error("Invalid JSON format.");
-    const filePath = join(__dirname, this.filePath);
-    return writeFile(filePath, json, "utf-8");
+    return writeFile(resolve(this.filePath), json, "utf-8");
   }
 
   log(options = {}) {

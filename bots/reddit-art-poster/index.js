@@ -8,16 +8,4 @@ const Tasklist = require("./tasklist");
 ///------------------------------------------------------------------------------
 // ► Exports
 //------------------------------------------------------------------------------
-module.exports = async function redditArtPoster() {
-  try {
-    const tasklist = new Tasklist("./tasklist.json");
-
-    tasklist.log();
-    // await tasklist.fetchSchedRefs();
-    // tasklist.log();
-
-    await tasklist.run();
-  } catch(err) {
-    console.error(err);
-  }
-};
+module.exports = (tasklist) => new Tasklist(tasklist);

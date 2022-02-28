@@ -1,12 +1,12 @@
 {
   "name": "auto-poster",
   "version": "1.0.0",
-  "description": "",
+  "description": "Posting automation tool for social media networks.",
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon . --ignore tasklist.json",
-    "test": "nodemon ./test.js --ignore tasklist*.json"
+    "dev": "nodemon . --ignore *tasklist*.json",
+    "test": "nodemon ./test.js --ignore *tasklist*.json"
   },
   "author": "Ambratolm <ambratolm@gmail.com>",
   "license": "ISC",

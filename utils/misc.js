@@ -10,6 +10,19 @@
 global.sleep = require("util").promisify(setTimeout);
 
 //------------------------------------------------------------------------------
+// ● Repeat
+//------------------------------------------------------------------------------
+global.repeat = async function(func, options = {}) {
+  const { delay, immediate, args = [] } = options;
+  (async function loop(){
+     if (immediate) func(...args);
+     await sleep(delay);
+     if (!immediate) func(...args);
+     loop();
+  })();
+}
+
+//------------------------------------------------------------------------------
 // ● Console-Colors
 //------------------------------------------------------------------------------
 global.chalk = require("chalk");
@@ -35,3 +48,12 @@ global.random = function (min = 0, max = 5000) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+//------------------------------------------------------------------------------
+// ● Catch-Uncaught-Exceptions
+//------------------------------------------------------------------------------
+process.on("uncaughtException", (err) => {
+  console.error("There was an uncaught error");
+  console.error(err.stack);
+  process.exit(1);
+});

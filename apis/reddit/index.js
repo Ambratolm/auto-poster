@@ -66,7 +66,11 @@ async function getNewByMe(subredditName, options = {}) {
     if (submissions && submissions.length) {
       console.log(
         "Reddit/API",
-        `Found ${submissions.length} new submissions by ${name} in r/${subredditName}.`
+        `Found ${chalk.green(
+          `${submissions.length} new`
+        )} submissions by ${chalk.cyan(name)} in ${chalk.cyan(
+          `r/${subredditName}`
+        )}.`
       );
       return one ? submissions[0] : submissions;
     }
