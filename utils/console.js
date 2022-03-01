@@ -16,6 +16,12 @@ console.$error = console.error;
 //------------------------------------------------------------------------------
 function $consoleFnPatcher(fn, options = {}) {
   const { prefix = {}, highlight = {}, normal = {} } = options;
+  if (!prefix.text) prefix.text = " ";
+  if (!prefix.color) prefix.color = "white";
+  if (!prefix.bgColor) prefix.bgColor = "bgGrey";
+  if (!highlight.color) highlight.color = "white";
+  if (!highlight.bgColor) highlight.bgColor = "bgGrey";
+  if (!normal.color) normal.color = "white";
   return function () {
     for (let i = 0, length = arguments.length; i < length; i++) {
       if (i === 0 && length >= 2) {
@@ -33,18 +39,14 @@ function $consoleFnPatcher(fn, options = {}) {
 //------------------------------------------------------------------------------
 // ● Console-Log
 //------------------------------------------------------------------------------
-console.log = $consoleFnPatcher(console.log, {
-  prefix: { text: "LOG", color: "black", bgColor: "bgWhite" },
-  highlight: { color: "whiteBright", bgColor: "bgGrey" },
-  normal: { color: "white" },
-});
+console.log = $consoleFnPatcher(console.log);
 
 //------------------------------------------------------------------------------
 // ● Console-Warn
 //------------------------------------------------------------------------------
 console.warn = $consoleFnPatcher(console.warn, {
-  prefix: { text: "WAR", color: "black", bgColor: "bgYellow" },
-  highlight: { color: "yellow", bgColor: "bgGrey" },
+  prefix: { text:"!",color:"yellowBright",bgColor: "bgYellow" },
+  highlight: { color: "yellow" },
   normal: { color: "yellow" },
 });
 
@@ -52,8 +54,8 @@ console.warn = $consoleFnPatcher(console.warn, {
 // ● Console-Error
 //------------------------------------------------------------------------------
 console.error = $consoleFnPatcher(console.error, {
-  prefix: { text: "ERR", color: "black", bgColor: "bgRed" },
-  highlight: { color: "redBright", bgColor: "bgGrey" },
+  prefix: { text:"X",color:"redBright",bgColor: "bgRed" },
+  highlight: { color: "redBright" },
   normal: { color: "red" },
 });
 
@@ -61,8 +63,8 @@ console.error = $consoleFnPatcher(console.error, {
 // ● Console-Success
 //------------------------------------------------------------------------------
 console.success = $consoleFnPatcher(console.$log, {
-  prefix: { text: "SUC", color: "black", bgColor: "bgGreen" },
-  highlight: { color: "greenBright", bgColor: "bgGrey" },
+  prefix: { text:"✓",color:"greenBright",bgColor: "bgGreen" },
+  highlight: { color: "greenBright" },
   normal: { color: "green" },
 });
 
@@ -81,15 +83,6 @@ console.header = function header() {
   console.line("=");
   console.log(`■ ${name} v${version}`, "باسم الله الرحمان الرحيم");
   console.line("=");
-};
-
-//------------------------------------------------------------------------------
-// ● Console-Progress
-//------------------------------------------------------------------------------
-console.progress = function (text = "") {
-  process.stdout.clearLine();
-  process.stdout.cursorTo(0);
-  process.stdout.write(text);
 };
 
 //------------------------------------------------------------------------------

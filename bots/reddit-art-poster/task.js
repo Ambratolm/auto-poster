@@ -29,15 +29,14 @@ module.exports = class Task {
 
   async execute() {
     if (!this.subreddit.trim()) {
-      console.warn("Reddit/ArtPoster/Task", "No subreddit provided.");
+      console.warn("RedditArtPoster/Task", "No subreddit provided.");
       return;
     }
     if (!this.schedule.isReady) {
       console.warn(
-        "Reddit/ArtPoster/Task",
-        `Too early for submitting to ${
-          this.subredditPrefixed
-        }. latest submission was ${this.schedule.referenceDate.fromNow()}. Next one should be submitted ${this.schedule.intendedDate.fromNow()} or later.`
+        "RedditArtPoster/Task",
+        this.subredditPrefixed,
+        `Too early for submitting.`
       );
       return;
     }
@@ -54,7 +53,16 @@ module.exports = class Task {
     return submission;
   }
 
-  async fetchScheduleReference() {
+  async fetchScheduleReference(options = {}) {
+    const { force } = options;
+    if (!force && this.schedule.referenceDate) {
+      console.warn(
+        "RedditArtPoster/Task",
+        this.subredditPrefixed,
+        "Schedule reference already present."
+      );
+      return;
+    }
     const latestSubmission = await reddit.getNewByMe(this.subreddit, {
       one: true,
     });
@@ -63,14 +71,15 @@ module.exports = class Task {
       if (createdDate.isValid()) {
         this.schedule.reference = createdDate.format();
         console.success(
-          "Reddit/ArtPoster/Task",
-          `Updated schedule reference to: done ${createdDate.fromNow()}.`
+          "RedditArtPoster/Task",
+          this.subredditPrefixed,
+          "Updated schedule reference."
         );
-        console.log(`\t${this.toString("post")}.`);
-        console.log(`\t\t${this.toString("schedule")}.`);
+        return this.schedule.referenceDate;
       } else {
         console.error(
-          "Reddit/ArtPoster/Task",
+          "RedditArtPoster/Task",
+          this.subredditPrefixed,
           "Could not update schedule reference.",
           "Fetched date is invalid."
         );

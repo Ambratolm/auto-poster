@@ -9,6 +9,7 @@ require("./utils/");
 // ● Test
 //------------------------------------------------------------------------------
 (async function test() {
-  console.log();
+  console.clear();
+  console.log("Test");
 })();
 

@@ -4,13 +4,10 @@
 //     Main entry point.
 //==============================================================================
 require("./utils/");
-const { name, version } = require("./package.json");
-const redditArtPoster = require("./bots/reddit-art-poster/")(
-  "./data/rap-tasklist-test.json"
-);
+const redditArtPosterConsumer = require("./@reddit-art-poster-consumer");
 
 //------------------------------------------------------------------------------
-// ► Execution
+// ► Boot
 //------------------------------------------------------------------------------
 console.clear();
 console.header();
@@ -26,18 +23,19 @@ repeat(main, {
 //------------------------------------------------------------------------------
 async function main(intervalDuration) {
   try {
-    //--------------------------------------------------------------------------
-    // ● Reddit-Art-Poster
-    //--------------------------------------------------------------------------
-    redditArtPoster.log();
+    // Start
+
+    // Run bot consumers
+    await redditArtPosterConsumer();
     console.line("=");
-    await redditArtPoster.fetchSchedRefs();
-    console.line("=");
-    // await redditArtPoster.run();
-    // console.line("=");
-    //--------------------------------------------------------------------------
+
+    // End
     if (intervalDuration) {
-      console.log(`► Next iteration ${intervalDuration.humanize(true)}...`);
+      console.success(
+        "AutoPoster",
+        `Next iteration ${chalk.cyan(intervalDuration.humanize(true))}... ✈`
+      );
+      console.line("=");
     }
   } catch (err) {
     console.error(err);

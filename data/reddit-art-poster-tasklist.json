@@ -98,5 +98,65 @@
       "interval": "P1D",
       "reference": "2022-02-28T06:26:14+01:00"
     }
+  },
+  {
+    "subreddit": "artstore",
+    "post": {
+      "title": "{0}",
+      "oc": false,
+      "flairs": []
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": "2021-04-13T02:08:22+00:00"
+    }
+  },
+  {
+    "subreddit": "WolrdArt",
+    "post": {
+      "title": "{0}",
+      "oc": false,
+      "flairs": []
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": ""
+    }
+  },
+  {
+    "subreddit": "UnusualArt",
+    "post": {
+      "title": "{0}",
+      "oc": false,
+      "flairs": []
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": ""
+    }
+  },
+  {
+    "subreddit": "originalpainting",
+    "post": {
+      "title": "{0}, mix, a4",
+      "oc": false,
+      "flairs": []
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": "2021-02-13T04:32:50+01:00"
+    }
+  },
+  {
+    "subreddit": "ArtPorn",
+    "post": {
+      "title": "{0}, by me, [2208 x 3200]",
+      "oc": true,
+      "flairs": []
+    },
+    "schedule": {
+      "interval": "P1D",
+      "reference": "2021-04-16T08:48:58+00:00"
+    }
   }
 ]

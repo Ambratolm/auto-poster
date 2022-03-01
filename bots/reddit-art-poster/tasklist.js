@@ -16,7 +16,7 @@ module.exports = class Tasklist {
 
   constructor(tasklist = "") {
     if (typeof tasklist === "string") {
-      tasklist = require(resolve(this.filePath = tasklist));
+      tasklist = require(resolve((this.filePath = tasklist)));
     }
     this.add(tasklist);
   }
@@ -38,19 +38,18 @@ module.exports = class Tasklist {
 
   async run(options = {}) {
     const { save = true } = options;
-    for (const task of this._tasks) {
-      console.line();
-      await task.execute();
-      await sleep(random(1000, 5000));
+    for (const [i, task] of this._tasks.entries()) {
+      if (await task.execute()) await sleep(random(1000, 5000));
+      if (i < this._tasks.length - 1) console.line();
     }
     if (save) await this.save();
   }
 
   async fetchSchedRefs(options = {}) {
-    const { save = true } = options;
+    const { save = true, force } = options;
     for (const task of this._tasks) {
-      await task.fetchScheduleReference();
-      await sleep(random(1000, 5000));
+      if (await task.fetchScheduleReference({ force }))
+        await sleep(random(1000, 5000));
     }
     if (save) await this.save();
   }
@@ -64,7 +63,7 @@ module.exports = class Tasklist {
   log(options = {}) {
     const { spaced } = options;
     const countText = chalk.cyanBright(`${this.count} tasks`);
-    console.log("Reddit/Art-Poster/Tasklist", countText);
+    console.log("RedditArtPoster/Tasklist", countText);
     for (const task of this._tasks) {
       if (spaced) console.line();
       console.log(`\t${task.toString("post")}.`);
