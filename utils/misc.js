@@ -12,15 +12,18 @@ global.sleep = require("util").promisify(setTimeout);
 //------------------------------------------------------------------------------
 // ● Repeat
 //------------------------------------------------------------------------------
-global.repeat = async function(func, options = {}) {
-  const { delay, immediate, args = [] } = options;
-  (async function loop(){
-     if (immediate) func(...args);
-     await sleep(delay);
-     if (!immediate) func(...args);
-     loop();
+global.repeat = async function (func, options = {}) {
+  const { delay, immediate, delayArg, args = [] } = options;
+  const getDelay = typeof delay === "function" ? delay : () => delay;
+  (async function loop() {
+    const currentDelay = getDelay();
+    if (delayArg) args.unshift(currentDelay);
+    if (immediate) func(...args);
+    await sleep(currentDelay);
+    if (!immediate) func(...args);
+    loop();
   })();
-}
+};
 
 //------------------------------------------------------------------------------
 // ● Console-Colors
@@ -39,6 +42,7 @@ global.chalk = require("chalk");
 global.dayjs = require("dayjs");
 global.dayjs.extend(require("dayjs/plugin/duration"));
 global.dayjs.extend(require("dayjs/plugin/relativeTime"));
+global.dayjs.extend(require("dayjs/plugin/minMax"));
 
 //------------------------------------------------------------------------------
 // ● Random-Integer

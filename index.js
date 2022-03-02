@@ -4,36 +4,48 @@
 //     Main entry point.
 //==============================================================================
 require("./utils/");
-const redditArtPosterConsumer = require("./@reddit-art-poster-consumer");
 
 //------------------------------------------------------------------------------
-// ► Boot
+// ● Bot-Consumers
 //------------------------------------------------------------------------------
-console.clear();
-console.header();
-const intervalDuration = dayjs.duration(1, "days");
+const BOT_CONSUMERS = [require("./@reddit-art-poster-consumer")];
+
+//------------------------------------------------------------------------------
+// ► Launch
+//------------------------------------------------------------------------------
 repeat(main, {
-  delay: intervalDuration.asMilliseconds(),
+  delay: iterationDelay,
+  delayArg: true,
   immediate: true,
-  args: [intervalDuration],
 });
+
+//------------------------------------------------------------------------------
+// ● Iteration-Delay
+//------------------------------------------------------------------------------
+function iterationDelay() {
+  let duration = dayjs.duration(1, "minutes");
+  for (const botConsumer of BOT_CONSUMERS) {
+    duration = duration.add(botConsumer.delay);
+  }
+  return duration.asMilliseconds();
+}
 
 //------------------------------------------------------------------------------
 // ● Main
 //------------------------------------------------------------------------------
-async function main(intervalDuration) {
+async function main(delay) {
   try {
-    // Start
-
-    // Run bot consumers
-    await redditArtPosterConsumer();
-    console.line("=");
-
-    // End
-    if (intervalDuration) {
+    console.clear();
+    console.header();
+    for (const botConsumer of BOT_CONSUMERS) {
+      await botConsumer.run();
+      console.line("=");
+    }
+    if (delay) {
+      const delayText = dayjs.duration(delay).humanize(true);
       console.success(
         "AutoPoster",
-        `Next iteration ${chalk.cyan(intervalDuration.humanize(true))}... ✈`
+        `Next iteration ${chalk.cyan(delayText)}... ✈`
       );
       console.line("=");
     }

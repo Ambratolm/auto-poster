@@ -22,7 +22,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:25:41+01:00"
+      "reference": "2022-03-01T09:29:24+01:00"
     }
   },
   {
@@ -34,7 +34,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:27:23+01:00"
+      "reference": "2022-03-01T09:29:28+01:00"
     }
   },
   {
@@ -46,7 +46,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:25:50+01:00"
+      "reference": "2022-03-01T09:29:33+01:00"
     }
   },
   {
@@ -60,7 +60,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:25:58+01:00"
+      "reference": "2022-03-01T09:29:40+01:00"
     }
   },
   {
@@ -72,7 +72,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:26:03+01:00"
+      "reference": "2022-03-01T09:29:46+01:00"
     }
   },
   {
@@ -84,7 +84,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:26:09+01:00"
+      "reference": "2022-03-01T09:29:52+01:00"
     }
   },
   {
@@ -96,7 +96,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-02-28T06:26:14+01:00"
+      "reference": "2022-03-01T09:29:56+01:00"
     }
   },
   {
@@ -107,8 +107,7 @@
       "flairs": []
     },
     "schedule": {
-      "interval": "P1D",
-      "reference": "2021-04-13T02:08:22+00:00"
+      "interval": "P2D"
     }
   },
   {
@@ -120,7 +119,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": ""
+      "reference": "2022-03-01T09:30:04+01:00"
     }
   },
   {
@@ -132,7 +131,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": ""
+      "reference": "2022-03-01T09:30:10+01:00"
     }
   },
   {
@@ -156,7 +155,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2021-04-16T08:48:58+00:00"
+      "reference": "2022-03-01T09:30:14+01:00"
     }
   }
 ]

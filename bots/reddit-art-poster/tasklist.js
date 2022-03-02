@@ -25,6 +25,13 @@ module.exports = class Tasklist {
     return this._tasks.length;
   }
 
+  get remainingDuration() {
+    const intendedDates = this._tasks.map(task => task.schedule.intendedDate);
+    const minIntendedDate = dayjs.min(intendedDates);
+    const remaining = Math.abs(minIntendedDate.diff(dayjs())); // In milliseconds
+    return dayjs.duration(remaining);
+  }
+
   add(tasks = []) {
     if (Array.isArray(tasks)) {
       for (const task of tasks) {
@@ -36,7 +43,7 @@ module.exports = class Tasklist {
     }
   }
 
-  async run(options = {}) {
+  async execute(options = {}) {
     const { save = true } = options;
     for (const [i, task] of this._tasks.entries()) {
       if (await task.execute()) await sleep(random(1000, 5000));
