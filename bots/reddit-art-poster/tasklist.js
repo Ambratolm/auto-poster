@@ -26,10 +26,10 @@ module.exports = class Tasklist {
   }
 
   get remainingDuration() {
-    const intendedDates = this._tasks.map(task => task.schedule.intendedDate);
+    const intendedDates = this._tasks.map((task) => task.schedule.intendedDate);
     const minIntendedDate = dayjs.min(intendedDates);
-    const remaining = Math.abs(minIntendedDate.diff(dayjs())); // In milliseconds
-    return dayjs.duration(remaining);
+    const remaining = minIntendedDate.diff(dayjs()); // In milliseconds
+    return dayjs.duration(remaining > 0 ? remaining : 0);
   }
 
   add(tasks = []) {
@@ -45,20 +45,29 @@ module.exports = class Tasklist {
 
   async execute(options = {}) {
     const { save = true } = options;
+    let count = 0;
     for (const [i, task] of this._tasks.entries()) {
-      if (await task.execute()) await sleep(random(1000, 5000));
+      if (await task.execute()) {
+        count++;
+        await sleep(random(1000, 5000));
+      }
       if (i < this._tasks.length - 1) console.line();
     }
     if (save) await this.save();
+    return count;
   }
 
   async fetchSchedRefs(options = {}) {
     const { save = true, force } = options;
+    let count = 0;
     for (const task of this._tasks) {
-      if (await task.fetchScheduleReference({ force }))
+      if (await task.fetchScheduleReference({ force })) {
+        count++;
         await sleep(random(1000, 5000));
+      }
     }
     if (save) await this.save();
+    return count;
   }
 
   async save() {
