@@ -16,34 +16,46 @@ module.exports = {
     },
     async run() {
         // Start
-        console.log("RedditArtPoster/Consumer", "Start:");
-        console.line(".");
+        this.log("Start:");
+        this.line();
 
         // Log (1st)
         redditArtPoster.log();
-        console.line(".");
+        this.line();
 
         // Fetch schedule references
         const fetchedSchedRefsCount = await redditArtPoster.fetchSchedRefs();
-        console.line(".");
+        this.line();
+        this.log(
+            `${fetchedSchedRefsCount} / ${redditArtPoster.count} schedule references fetched.`
+        );
+        this.line();
 
         // Log (2nd)
         if (fetchedSchedRefsCount) {
             redditArtPoster.log();
-            console.line(".");
+            this.line();
         }
 
         // Execute tasks (Start posting)
         const execTimout = dayjs.duration(10, "seconds");
-        console.log(
-            "RedditArtPoster/Consumer",
-            `Execution ${chalk.cyan(execTimout.humanize(true))}... ►`
-        );
+        this.log(`Execution ${chalk.cyan(execTimout.humanize(true))}...`);
+        this.line();
         await sleep(execTimout.asMilliseconds());
-        await redditArtPoster.execute();
-        console.line(".");
+        const executedTasksCount = await redditArtPoster.execute();
+        this.line();
 
         // End
-        console.log("RedditArtPoster/Consumer", "End.");
+        this.log(
+            `${executedTasksCount} / ${redditArtPoster.count} tasks executed.`
+        );
+        this.line();
+        this.log("End.");
+    },
+    log() {
+        console.log("RedditArtPoster/Consumer", ...arguments);
+    },
+    line() {
+        console.line("►");
     },
 };

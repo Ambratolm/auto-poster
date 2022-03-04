@@ -23,7 +23,7 @@ repeat(main, {
 // ● Iteration-Delay
 //------------------------------------------------------------------------------
 function iterationDelay() {
-  let duration = dayjs.duration(30, "minutes");
+  let duration = dayjs.duration(20, "hours");
   for (const botConsumer of BOT_CONSUMERS) {
     duration = duration.add(botConsumer.delay);
   }
