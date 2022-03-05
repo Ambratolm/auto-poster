@@ -24,7 +24,9 @@ module.exports = {
         this.line();
 
         // Fetch schedule references
-        const fetchedSchedRefsCount = await redditArtPoster.fetchSchedRefs();
+        const fetchedSchedRefsCount = await redditArtPoster.fetchSchedRefs({
+            force: true,
+        });
         this.line();
         this.log(
             `${fetchedSchedRefsCount} / ${redditArtPoster.count} schedule references fetched.`

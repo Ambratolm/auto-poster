@@ -49,11 +49,11 @@ module.exports = class Tasklist {
     for (const [i, task] of this._tasks.entries()) {
       if (await task.execute()) {
         count++;
+        if (save) await this.save();
         await sleep(random(1000, 5000));
       }
       if (i < this._tasks.length - 1) console.line();
     }
-    if (save) await this.save();
     return count;
   }
 
@@ -63,10 +63,10 @@ module.exports = class Tasklist {
     for (const task of this._tasks) {
       if (await task.fetchScheduleReference({ force })) {
         count++;
+        if (save) await this.save();
         await sleep(random(1000, 5000));
       }
     }
-    if (save) await this.save();
     return count;
   }
 
