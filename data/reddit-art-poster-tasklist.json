@@ -1,19 +1,5 @@
 [
   {
-    "subreddit": "Art",
-    "post": {
-      "title": "{0}, me, mix, {1}",
-      "oc": true,
-      "flairs": [
-        "artwork"
-      ]
-    },
-    "schedule": {
-      "interval": "P2D",
-      "reference": "2021-12-11T03:24:05+01:00"
-    }
-  },
-  {
     "subreddit": "SpecArt",
     "post": {
       "title": "{0}",
@@ -22,7 +8,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:03+01:00"
+      "reference": "2022-03-12T03:07:13+01:00"
     }
   },
   {
@@ -34,7 +20,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:07+01:00"
+      "reference": "2022-03-12T03:07:16+01:00"
     }
   },
   {
@@ -46,7 +32,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:10+01:00"
+      "reference": "2022-03-12T06:34:25+01:00"
     }
   },
   {
@@ -60,7 +46,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:18+01:00"
+      "reference": "2022-03-12T06:34:30+01:00"
     }
   },
   {
@@ -72,7 +58,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:23+01:00"
+      "reference": "2022-03-11T07:07:08+01:00"
     }
   },
   {
@@ -84,7 +70,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:28+01:00"
+      "reference": "2022-03-11T07:07:13+01:00"
     }
   },
   {
@@ -96,31 +82,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:34+01:00"
-    }
-  },
-  {
-    "subreddit": "artstore",
-    "post": {
-      "title": "{0}",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "interval": "P2D",
-      "reference": "2022-03-03T23:50:30+01:00"
-    }
-  },
-  {
-    "subreddit": "WolrdArt",
-    "post": {
-      "title": "{0}",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "interval": "P1D",
-      "reference": "2022-03-03T07:22:37+01:00"
+      "reference": "2022-03-11T07:07:15+01:00"
     }
   },
   {
@@ -132,19 +94,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:44+01:00"
-    }
-  },
-  {
-    "subreddit": "originalpainting",
-    "post": {
-      "title": "{0}, mix, a4",
-      "oc": false,
-      "flairs": []
-    },
-    "schedule": {
-      "interval": "P1D",
-      "reference": "2021-02-13T04:32:50+01:00"
+      "reference": "2022-03-11T07:07:22+01:00"
     }
   },
   {
@@ -156,7 +106,7 @@
     },
     "schedule": {
       "interval": "P1D",
-      "reference": "2022-03-03T07:22:48+01:00"
+      "reference": "2022-03-11T07:07:23+01:00"
     }
   }
 ]
